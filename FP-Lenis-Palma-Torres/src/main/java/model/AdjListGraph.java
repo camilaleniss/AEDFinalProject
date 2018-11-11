@@ -9,9 +9,15 @@ public class AdjListGraph<T> implements IGraph<T>{
 	private int numberOfVertices;
 	private int numberOfEdges;
 	
+	private List<Vertex> vertices;
+	
 	public AdjListGraph(boolean directed, boolean weighted) {
 		this.directed=directed;
 		this.weighted=weighted;
+		numberOfVertices=0;
+		numberOfEdges=getNumberOfEdges();
+		
+		//vertices= new List<Vertex>();
 	}
 	
 	public List<Vertex> getVertices() {
@@ -63,7 +69,7 @@ public class AdjListGraph<T> implements IGraph<T>{
 	}
 	
 	public int getNumberOfEdges() {
-		// TODO Auto-generated method stub
+		//Depende de si es o no dirigido
 		return 0;
 	}
 	

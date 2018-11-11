@@ -3,8 +3,8 @@ package model;
 public class Vertex<T> {
 
 	public static final int WHITE = 0;
-	public static final int GRAY = 0;
-	public static final int BLACK = 0;
+	public static final int GRAY = 1;
+	public static final int BLACK = 2;
 	
 	private T value;
 	//Distance
@@ -16,7 +16,9 @@ public class Vertex<T> {
 	private Vertex<T> pred;
 	
 	public Vertex(T value) {
-		
+		this.value=value;
+		pred=null;
+		color=WHITE;
 	}
 
 	public T getValue() {
