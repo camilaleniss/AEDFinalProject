@@ -9,7 +9,7 @@ public class AdjListGraph<T> implements IGraph<T>{
 	private int numberOfVertices;
 	private int numberOfEdges;
 	
-	private List<Vertex> vertices;
+	private List<Vertex<T>> vertices;
 	
 	public AdjListGraph(boolean directed, boolean weighted) {
 		this.directed=directed;
@@ -17,12 +17,20 @@ public class AdjListGraph<T> implements IGraph<T>{
 		numberOfVertices=0;
 		numberOfEdges=getNumberOfEdges();
 		
-		//vertices= new List<Vertex>();
+		//vertices = new List<>();
 	}
 	
-	public List<Vertex> getVertices() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Vertex<T>> getVertices() {
+		return vertices;
+	}
+	
+	public int getNumberOfVertices() {
+		return numberOfVertices;
+	}
+	
+	public int getNumberOfEdges() {
+		//Depende de si es o no dirigido
+		return numberOfEdges;
 	}
 	
 	public boolean isDirected() {
@@ -33,74 +41,68 @@ public class AdjListGraph<T> implements IGraph<T>{
 		return weighted;
 	}
 	
-	public void addVertex(Vertex x) {
-		// TODO Auto-generated method stub
-		
+	public void addVertex(Vertex<T> x) {
+		vertices.add(x);
+		numberOfVertices++;
 	}
 	
-	public void addEdge(Vertex x, Vertex y) {
-		// TODO Auto-generated method stub
+	public void addEdge(Vertex<T> x, Vertex<T> y) {
+		Edge <T> edge = new Edge(x, y);
 		
+		
+		numberOfEdges++;
 	}
 	
-	public void addEdge(Vertex x, Vertex y, double w) {
-		// TODO Auto-generated method stub
+	public void addEdge(Vertex<T> x, Vertex<T> y, double w) {
+		Edge <T> edge = new Edge(x,y,w);
 		
+		
+		numberOfEdges++;
 	}
 	
-	public void removeVertex(Vertex v) {
-		// TODO Auto-generated method stub
-		
+	public void removeVertex(Vertex<T> v) {
+		vertices.remove(v);
+		numberOfVertices--;
 	}
 	
-	public void removeEdge(Vertex x, Vertex y) {
-		// TODO Auto-generated method stub
+	public void removeEdge(Vertex<T> x, Vertex<T> y) {
 		
+		numberOfEdges--;
 	}
 	
-	public List<Vertex> getNeighbors(Vertex x) {
+	public List<Vertex<T>> getNeighbors(Vertex<T> x) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 	
-	public int getNumberOfVertices() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	
-	public int getNumberOfEdges() {
-		//Depende de si es o no dirigido
-		return 0;
-	}
-	
-	public boolean areAdjacent(Vertex x, Vertex y) {
+	public boolean areAdjacent(Vertex<T> x, Vertex<T> y) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 	
 	public boolean isInGraph(T value) {
-		// TODO Auto-generated method stub
+		for (int i=0; i<vertices.size(); i++) {
+			if(vertices.get(i).getValue()==value)
+				return true;
+		}
 		return false;
 	}
 	
-	public double getEdgeWeight(Vertex x, Vertex y) {
-		// TODO Auto-generated method stub
+	public double getEdgeWeight(Vertex<T> x, Vertex<T> y) {
+		
 		return 0;
 	}
 	
-	public void setEdgeWeight(Vertex x, Vertex y, double w) {
-		// TODO Auto-generated method stub
+	public void setEdgeWeight(Vertex<T> x, Vertex<T> y, double w) {
 		
 	}
 	
-	public void bfs(Vertex s) {
+	public void bfs(Vertex<T> s) {
 		
 	}
 	
 	public void dfs() {
-		// TODO Auto-generated method stub
 		
 	}
-	
 	
 }
