@@ -1,6 +1,6 @@
 package model;
 
-public class Vertex<T> implements Comparable{
+public class Vertex<T> implements Comparable<T>{
 
 	public static final int WHITE = 0;
 	public static final int GRAY = 1;

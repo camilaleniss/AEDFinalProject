@@ -18,9 +18,7 @@ public class AdjListGraph<T> implements IGraph<T>{
 		this.weighted=weighted;
 		numberOfVertices=0;
 		numberOfEdges=getNumberOfEdges();
-		
 		vertices = new LinkedList<Vertex<T>>();
-		
 	}
 	
 	public List<Vertex<T>> getVertices() {
@@ -46,9 +44,12 @@ public class AdjListGraph<T> implements IGraph<T>{
 	
 	@Override
 	public void addVertex(T value) {
+		if(!isInGraph(value)) {
 		AdjVertex<T> vertex = new AdjVertex<T>(value);
+		vertex.setIndex(numberOfVertices);
 		vertices.add(vertex);
 		numberOfVertices++;
+		}
 	}
 	
 	/*
@@ -66,6 +67,7 @@ public class AdjListGraph<T> implements IGraph<T>{
 			Edge<T> edge = new Edge<T>(from, to);
 			from.getAdjList().add(edge);
 			if (!isDirected()) {
+				edge = new Edge<T>(to, from);
 				to.getAdjList().add(edge);
 			}
 		}
@@ -86,6 +88,7 @@ public class AdjListGraph<T> implements IGraph<T>{
 			Edge<T> edge = new Edge<T>(from, to, w);
 			from.getAdjList().add(edge);
 			if (!isDirected()) {
+				edge = new Edge<T>(to, from, w);
 				to.getAdjList().add(edge);
 			}
 		}
@@ -129,7 +132,7 @@ public class AdjListGraph<T> implements IGraph<T>{
 		
 	}
 	
-	private AdjVertex<T> searchVertex(T value){
+	public AdjVertex<T> searchVertex(T value){
 		for (int i=0; i<vertices.size(); i++) {
 			if (vertices.get(i).getValue()==value) {
 				return (AdjVertex<T>) vertices.get(i);
