@@ -1,6 +1,6 @@
 package model;
 
-public class Vertex<T> {
+public class Vertex<T> implements Comparable{
 
 	public static final int WHITE = 0;
 	public static final int GRAY = 1;
@@ -8,9 +8,11 @@ public class Vertex<T> {
 	
 	private T value;
 	//Distance
-	private int d;
+	private double d;
 	//IDK
 	private int f;
+	
+	private int index;
 	
 	private int color;
 	
@@ -30,11 +32,11 @@ public class Vertex<T> {
 		this.value = value;
 	}
 
-	public int getD() {
+	public double getD() {
 		return d;
 	}
 
-	public void setD(int d) {
+	public void setD(double d) {
 		this.d = d;
 	}
 
@@ -60,6 +62,20 @@ public class Vertex<T> {
 
 	public void setPred(Vertex<T> pred) {
 		this.pred = pred;
+	}
+	
+	public int getIndex() {
+		return this.index;
+	}
+	
+	public void setIndex(int index) {
+		this.index=index;
+	}
+
+	@Override
+	public int compareTo(Object arg0) {
+		Vertex<T> vertex = (Vertex<T>) arg0;
+		return  (int) (d-vertex.getD());
 	}
 	
 }

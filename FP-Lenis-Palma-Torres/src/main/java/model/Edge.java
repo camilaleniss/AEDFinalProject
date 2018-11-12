@@ -27,11 +27,11 @@ public class Edge<T> {
 		this.weight = weight;
 	}
 	
-	public Vertex getSource() {
+	public Vertex<T> getSource() {
 		return source;
 	}
 
-	public Vertex getDestination() {
+	public Vertex<T> getDestination() {
 		return destination;
 	}
 	

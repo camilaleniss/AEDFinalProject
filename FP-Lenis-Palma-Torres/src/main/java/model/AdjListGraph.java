@@ -2,6 +2,7 @@ package model;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.PriorityQueue;
 
 public class AdjListGraph<T> implements IGraph<T>{
 
@@ -145,7 +146,55 @@ public class AdjListGraph<T> implements IGraph<T>{
 		
 	}
 	
-	
+	public double[] dijkstra(AdjVertex<T> vertex) {
+		//Initialization
+		double [] dist = new double[numberOfVertices];
+		boolean[] visit= new boolean[numberOfVertices];
+		PriorityQueue<AdjVertex<T>> s = new PriorityQueue<>();
+		
+		int index = vertex.getIndex();
+		
+		for(int i=0; i<visit.length; i++)
+			visit[i]=false;
+		
+		for (int i=0; i<dist.length; i++)
+			dist[i] = Integer.MAX_VALUE;
+			
+		dist[index] = 0;
+		
+		vertex.setD(0);
+		
+		s.add(vertex);
+		
+		//Dijkstra Algorithm
+		
+		while(!s.isEmpty()) {
+			AdjVertex<T> p = s.poll();
+			//Index of the vertex
+			int x = p.getIndex();
+			//Update visit array
+			visit[x] = true;
+			
+			//Look for a better path throught adjacent list
+			for (int i=0; i<p.getAdjList().size(); i++) {
+				
+				//Look at the weights from p to the adjVertex
+				Edge<T> adjVertex = p.getAdjList().get(i);
+				int e = adjVertex.getDestination().getIndex();
+				double w = adjVertex.getWeight();
+				
+				if (dist[x]+w<dist[e]) {
+					dist[e]=dist[x]+w;
+					AdjVertex<T> toAdd = new AdjVertex<T>((T) adjVertex.getDestination().getValue());
+					toAdd.setIndex(e);
+					toAdd.setD(dist[e]);
+					s.add(toAdd);
+				}
+			}	
+		}
+		
+		return dist;
+	}
 
 	
 }
