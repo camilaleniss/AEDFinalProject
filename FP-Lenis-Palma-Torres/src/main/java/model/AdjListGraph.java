@@ -185,7 +185,7 @@ public class AdjListGraph<T> implements IGraph<T>{
 				
 				if (dist[x]+w<dist[e]) {
 					dist[e]=dist[x]+w;
-					AdjVertex<T> toAdd = new AdjVertex<T>((T) adjVertex.getDestination().getValue());
+					AdjVertex<T> toAdd = new AdjVertex<T>(adjVertex.getDestination().getValue());
 					toAdd.setIndex(e);
 					toAdd.setD(dist[e]);
 					s.add(toAdd);

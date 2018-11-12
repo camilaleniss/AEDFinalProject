@@ -4,11 +4,14 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import model.AdjListGraph;
+
 public class TestAdjListGraph {
 
-	@Test
-	public void test() {
-		fail("Not yet implemented");
+	private AdjListGraph adjListGraph;
+	
+	TestAdjListGraph(){
+		
 	}
 
 }
