@@ -11,6 +11,7 @@ public class Vertex<T> {
 	private int d;
 	//IDK
 	private int f;
+	
 	private int color;
 	
 	private Vertex<T> pred;

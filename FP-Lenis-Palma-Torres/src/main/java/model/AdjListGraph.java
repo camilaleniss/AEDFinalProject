@@ -1,5 +1,6 @@
 package model;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class AdjListGraph<T> implements IGraph<T>{
@@ -17,7 +18,8 @@ public class AdjListGraph<T> implements IGraph<T>{
 		numberOfVertices=0;
 		numberOfEdges=getNumberOfEdges();
 		
-		//vertices = new List<>();
+		vertices = new LinkedList<Vertex<T>>();
+		
 	}
 	
 	public List<Vertex<T>> getVertices() {
@@ -41,22 +43,51 @@ public class AdjListGraph<T> implements IGraph<T>{
 		return weighted;
 	}
 	
-	public void addVertex(Vertex<T> x) {
-		vertices.add(x);
+	@Override
+	public void addVertex(T value) {
+		AdjVertex<T> vertex = new AdjVertex<T>(value);
+		vertices.add(vertex);
 		numberOfVertices++;
 	}
 	
+	/*
 	public void addEdge(Vertex<T> x, Vertex<T> y) {
-		Edge <T> edge = new Edge(x, y);
-		
-		
+		Edge <T> edge = new Edge<T>(x, y);
+		numberOfEdges++;
+	}
+	*/
+
+	@Override
+	public void addEdge(T x, T y) {
+		AdjVertex<T> from = searchVertex(x);
+		AdjVertex<T> to = searchVertex(y);
+		if (from!=null && to!=null) {
+			Edge<T> edge = new Edge<T>(from, to);
+			from.getAdjList().add(edge);
+			if (!isDirected()) {
+				to.getAdjList().add(edge);
+			}
+		}
 		numberOfEdges++;
 	}
 	
+	/*
 	public void addEdge(Vertex<T> x, Vertex<T> y, double w) {
 		Edge <T> edge = new Edge(x,y,w);
-		
-		
+		numberOfEdges++;
+	}*/
+	
+	@Override
+	public void addEdge(T x, T y, double w) {
+		AdjVertex<T> from = searchVertex(x);
+		AdjVertex<T> to = searchVertex(y);
+		if (from!=null && to!=null) {
+			Edge<T> edge = new Edge<T>(from, to, w);
+			from.getAdjList().add(edge);
+			if (!isDirected()) {
+				to.getAdjList().add(edge);
+			}
+		}
 		numberOfEdges++;
 	}
 	
@@ -97,6 +128,15 @@ public class AdjListGraph<T> implements IGraph<T>{
 		
 	}
 	
+	private AdjVertex<T> searchVertex(T value){
+		for (int i=0; i<vertices.size(); i++) {
+			if (vertices.get(i).getValue()==value) {
+				return (AdjVertex<T>) vertices.get(i);
+			}
+		}
+		return null;
+	}
+	
 	public void bfs(Vertex<T> s) {
 		
 	}
@@ -104,5 +144,8 @@ public class AdjListGraph<T> implements IGraph<T>{
 	public void dfs() {
 		
 	}
+	
+	
+
 	
 }

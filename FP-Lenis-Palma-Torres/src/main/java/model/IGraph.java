@@ -10,11 +10,15 @@ public interface IGraph<T> {
 	
 	public boolean isWeighted();
 	
-	public void addVertex(Vertex<T> x);
+	//Deberia pedirse como parámetreo el Value
+	//PREGUNTAR SI SE DEBERIA TENER EL MÉTODO QUE RECIBA UN VERTEX COMO PARÁMETRO
+	public void addVertex(T value);
+
+	public void addEdge(T x, T y);
 	
-	public void addEdge(Vertex<T> x, Vertex<T> y);
+	public void addEdge(T x, T y, double w);
 	
-	public void addEdge(Vertex<T> x, Vertex<T> y, double w);
+	//modificados los 3 métodos de arriba
 	
 	public void removeVertex(Vertex<T> v);
 	

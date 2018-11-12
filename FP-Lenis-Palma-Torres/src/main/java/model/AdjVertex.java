@@ -1,5 +1,6 @@
 package model;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class AdjVertex<T> extends Vertex<T> {
@@ -8,11 +9,19 @@ public class AdjVertex<T> extends Vertex<T> {
 	
 	public AdjVertex(T value) {
 		super(value);
-		//adjList= new List<Edge<T>>();
+		adjList= new LinkedList<Edge<T>>();
 	}
 	
 	public List<Edge<T>> getAdjList(){
 		return adjList;
+	}
+	
+	public boolean isAdjacent(AdjVertex<T> vertex) {
+		for(int i = 0; i<adjList.size(); i++) {
+			if (adjList.get(i).getDestination()==vertex)
+				return true;
+		}
+		return false;
 	}
 
 }
