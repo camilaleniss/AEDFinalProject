@@ -74,7 +74,9 @@ public class Vertex<T> implements Comparable<Vertex<T>>{
 
 	@Override
 	public int compareTo(Vertex<T> vertex) {
-		return  (int) (d-vertex.getD());
+		if(d == vertex.getD()) return 0;
+		if(d < vertex.getD()) return -1;
+		return 1;
 	}
 	
 }

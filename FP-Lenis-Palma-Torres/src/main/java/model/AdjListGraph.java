@@ -114,14 +114,13 @@ public class AdjListGraph<T> implements IGraph<T> {
 		AdjVertex<T> to = (AdjVertex<T>) y;
 		List<Edge<T>> adjFrom = from.getAdjList();
 		Edge<T> e = from.findEdge(to);
-		if(e != null)
+		if (e != null)
 			adjFrom.remove(e);
-		
 
 		if (!isDirected()) {
 			List<Edge<T>> adjTo = to.getAdjList();
 			e = to.findEdge(from);
-			if(e != null)
+			if (e != null)
 				adjTo.remove(e);
 		}
 
@@ -158,7 +157,7 @@ public class AdjListGraph<T> implements IGraph<T> {
 			AdjVertex<T> from = (AdjVertex<T>) x;
 			AdjVertex<T> to = (AdjVertex<T>) y;
 			Edge<T> e = from.findEdge(to);
-			if(e != null)
+			if (e != null)
 				w = e.getWeight();
 		}
 		return w;
@@ -169,12 +168,12 @@ public class AdjListGraph<T> implements IGraph<T> {
 			AdjVertex<T> from = (AdjVertex<T>) x;
 			AdjVertex<T> to = (AdjVertex<T>) y;
 			Edge<T> e = from.findEdge(to);
-			if(e != null)
+			if (e != null)
 				e.setWeight(w);
-			
+
 			if (!isDirected()) {
 				e = to.findEdge(from);
-				if(e != null)
+				if (e != null)
 					e.setWeight(w);
 			}
 		}
@@ -208,19 +207,19 @@ public class AdjListGraph<T> implements IGraph<T> {
 		s.setPred(null);
 		Queue<AdjVertex<T>> q = new LinkedList<>();
 		q.offer(s);
-		while(!q.isEmpty()) {
+		while (!q.isEmpty()) {
 			AdjVertex<T> u = q.poll();
 			for (int i = 0; i < u.getAdjList().size(); i++) {
 				AdjVertex<T> v = (AdjVertex<T>) u.getAdjList().get(i).getDestination();
-				if(v.getColor() == Vertex.WHITE) {
+				if (v.getColor() == Vertex.WHITE) {
 					v.setColor(Vertex.GRAY);
-					v.setD(u.getD()+1);
+					v.setD(u.getD() + 1);
 					v.setPred(u);
 					q.offer(v);
 				}
 			}
 			u.setColor(Vertex.BLACK);
-		}		
+		}
 	}
 
 	public void dfs() {
@@ -230,18 +229,18 @@ public class AdjListGraph<T> implements IGraph<T> {
 		}
 		int time = 0;
 		for (Vertex<T> u : vertices) {
-			if(u.getColor() == Vertex.WHITE)
-				time = dfsVisit((AdjVertex<T>)u, time);
+			if (u.getColor() == Vertex.WHITE)
+				time = dfsVisit((AdjVertex<T>) u, time);
 		}
 	}
-	
+
 	private int dfsVisit(AdjVertex<T> u, int time) {
 		time++;
 		u.setD(time);
 		u.setColor(Vertex.GRAY);
 		for (int i = 0; i < u.getAdjList().size(); i++) {
 			AdjVertex<T> v = (AdjVertex<T>) u.getAdjList().get(i).getDestination();
-			if(v.getColor() == Vertex.WHITE) {
+			if (v.getColor() == Vertex.WHITE) {
 				v.setPred(u);
 				time = dfsVisit(v, time);
 			}
@@ -252,56 +251,80 @@ public class AdjListGraph<T> implements IGraph<T> {
 		return time;
 	}
 
-	public double[] dijkstra(AdjVertex<T> vertex) {
-		// Initialization
-		double[] dist = new double[numberOfVertices];
-		boolean[] visit = new boolean[numberOfVertices];
-		PriorityQueue<AdjVertex<T>> s = new PriorityQueue<>();
+	// public double[] dijkstra(AdjVertex<T> vertex) {
+	// // Initialization
+	// double[] dist = new double[numberOfVertices];
+	// boolean[] visit = new boolean[numberOfVertices];
+	// PriorityQueue<AdjVertex<T>> s = new PriorityQueue<>();
+	//
+	// int index = vertex.getIndex();
+	//
+	// for (int i = 0; i < visit.length; i++)
+	// visit[i] = false;
+	//
+	// for (int i = 0; i < dist.length; i++)
+	// dist[i] = Integer.MAX_VALUE;
+	//
+	// dist[index] = 0;
+	//
+	// vertex.setD(0);
+	//
+	// s.add(vertex);
+	//
+	// // Dijkstra Algorithm
+	//
+	// while (!s.isEmpty()) {
+	// AdjVertex<T> p = s.poll();
+	// // Index of the vertex
+	// int x = p.getIndex();
+	// // Update visit array
+	// visit[x] = true;
+	//
+	// // Looks for a better path throughout adjacent list
+	// for (int i = 0; i < p.getAdjList().size(); i++) {
+	//
+	// // Look at the weights from p to the adjVertex
+	// Edge<T> adjVertex = p.getAdjList().get(i);
+	// int e = adjVertex.getDestination().getIndex();
+	// double w = adjVertex.getWeight();
+	//
+	// if (dist[x] + w < dist[e]) {
+	// dist[e] = dist[x] + w;
+	// AdjVertex<T> toAdd = new AdjVertex<T>(adjVertex.getDestination().getValue());
+	// toAdd.setIndex(e);
+	// toAdd.setD(dist[e]);
+	// s.add(toAdd);
+	// }
+	// }
+	// }
+	//
+	// return dist;
+	// }
 
-		int index = vertex.getIndex();
-
-		for (int i = 0; i < visit.length; i++)
-			visit[i] = false;
-
-		for (int i = 0; i < dist.length; i++)
-			dist[i] = Integer.MAX_VALUE;
-
-		dist[index] = 0;
-
-		vertex.setD(0);
-
-		s.add(vertex);
-
-		// Dijkstra Algorithm
-
-		while (!s.isEmpty()) {
-			AdjVertex<T> p = s.poll();
-			// Index of the vertex
-			int x = p.getIndex();
-			// Update visit array
-			visit[x] = true;
-
-			// Look for a better path throught adjacent list
-			for (int i = 0; i < p.getAdjList().size(); i++) {
-
-				// Look at the weights from p to the adjVertex
-				Edge<T> adjVertex = p.getAdjList().get(i);
-				int e = adjVertex.getDestination().getIndex();
-				double w = adjVertex.getWeight();
-
-				if (dist[x] + w < dist[e]) {
-					dist[e] = dist[x] + w;
-					AdjVertex<T> toAdd = new AdjVertex<T>(adjVertex.getDestination().getValue());
-					toAdd.setIndex(e);
-					toAdd.setD(dist[e]);
-					s.add(toAdd);
-				}
-			}
+	private void initSingleSource(AdjVertex<T> s) {
+		for (Vertex<T> u : vertices) {
+			u.setD(INF);
+			u.setPred(null);
 		}
+		s.setD(0);
+	}
 
-		return dist;
+	private void relax(AdjVertex<T> u, AdjVertex<T> v) {
+		Edge<T> e = u.findEdge(v);
+		double w = e == null ? INF : e.getWeight();
+		if (v.getD() > u.getD() + w) {
+			v.setD(u.getD() + w);
+			v.setPred(u);
+		}
 	}
 	
-	
-
+	public void dijkstra(Vertex<T> x) {
+		AdjVertex<T> s = (AdjVertex<T>) x;
+		initSingleSource(s);
+		PriorityQueue<AdjVertex<T>> q = new PriorityQueue<>();
+		for (Vertex<T> u : vertices) {
+			AdjVertex<T> v = (AdjVertex<T>) u;
+			q.add(v);
+		}
+	}
 }
