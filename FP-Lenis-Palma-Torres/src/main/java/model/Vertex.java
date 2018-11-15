@@ -1,6 +1,6 @@
 package model;
 
-public class Vertex<T> implements Comparable<T>{
+public class Vertex<T> implements Comparable<Vertex<T>>{
 
 	public static final int WHITE = 0;
 	public static final int GRAY = 1;
@@ -73,8 +73,7 @@ public class Vertex<T> implements Comparable<T>{
 	}
 
 	@Override
-	public int compareTo(Object arg0) {
-		Vertex<T> vertex = (Vertex<T>) arg0;
+	public int compareTo(Vertex<T> vertex) {
 		return  (int) (d-vertex.getD());
 	}
 	
