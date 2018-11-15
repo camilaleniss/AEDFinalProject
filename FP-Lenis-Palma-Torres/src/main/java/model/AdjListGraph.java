@@ -95,12 +95,21 @@ public class AdjListGraph<T> implements IGraph<T>{
 		numberOfEdges++;
 	}
 	
-	public void removeVertex(Vertex<T> v) {
-		vertices.remove(v);
+	//Revisar este método
+	public void removeVertex(T v) {
+		AdjVertex<T> vertex = searchVertex(v);
+		for (int i = 0; i<vertices.size(); i++) {
+			Edge<T> edge = ((AdjVertex<T>) vertices.get(i)).findEdge(vertex);
+			if (edge!=null) {
+				((AdjVertex<T>) vertices.get(i)).getAdjList().remove(edge);
+			}
+		}
+		vertices.remove(vertex);
 		numberOfVertices--;
 	}
 	
-	public void removeEdge(Vertex<T> x, Vertex<T> y) {
+	//IMPLEMENTAR ESTE MÉTODO
+	public void removeEdge(T x, T y) {
 		
 		numberOfEdges--;
 	}
