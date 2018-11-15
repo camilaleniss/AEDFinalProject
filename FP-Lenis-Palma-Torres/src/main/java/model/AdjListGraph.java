@@ -309,22 +309,29 @@ public class AdjListGraph<T> implements IGraph<T> {
 		s.setD(0);
 	}
 
-	private void relax(AdjVertex<T> u, AdjVertex<T> v) {
-		Edge<T> e = u.findEdge(v);
-		double w = e == null ? INF : e.getWeight();
-		if (v.getD() > u.getD() + w) {
-			v.setD(u.getD() + w);
-			v.setPred(u);
-		}
-	}
-	
 	public void dijkstra(Vertex<T> x) {
 		AdjVertex<T> s = (AdjVertex<T>) x;
 		initSingleSource(s);
-		PriorityQueue<AdjVertex<T>> q = new PriorityQueue<>();
-		for (Vertex<T> u : vertices) {
-			AdjVertex<T> v = (AdjVertex<T>) u;
-			q.add(v);
+		PriorityQueue<AdjVertex<T>> queue = new PriorityQueue<>();
+		queue.add(s);
+		while (!queue.isEmpty()) {
+			AdjVertex<T> u = queue.poll();
+
+			for (Edge<T> e : u.getAdjList()) {
+
+				AdjVertex<T> v = (AdjVertex<T>) e.getDestination();
+				double weight = e.getWeight();
+
+				// relax(u,v,weight)
+				double distanceFromU = u.getD() + weight;
+				if (distanceFromU < v.getD()) {
+					queue.remove(v);
+					v.setD(distanceFromU);
+					v.setPred(u);
+					queue.add(v);
+
+				}
+			}
 		}
 	}
 }
