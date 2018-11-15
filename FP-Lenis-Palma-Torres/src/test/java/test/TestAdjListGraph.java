@@ -89,6 +89,69 @@ public class TestAdjListGraph {
 		simpleSG.addEdge("x", "y");
 	}
 	
+	public void setUpStage8() {
+		simpleG = new AdjListGraph<>(false, false);
+		simpleG.addVertex(1);
+		simpleG.addVertex(2);
+		simpleG.addVertex(3);
+		simpleG.addVertex(4);
+		simpleG.addVertex(5);
+		simpleG.addEdge(1,2);
+		simpleG.addEdge(1,5);
+		simpleG.addEdge(2,5);
+		simpleG.addEdge(5,4);
+		simpleG.addEdge(2,4);
+		simpleG.addEdge(2,3);
+		simpleG.addEdge(3,4);
+	}
+	
+	public void setUpStage9() {
+		//EXAMPLE OF "Matem嫢ica discreta y sus aplicaciones"
+		simpleSG = new AdjListGraph<>(false, true);
+		simpleSG.addVertex("Boston");
+		simpleSG.addVertex("Nueva York");
+		simpleSG.addVertex("Chicago");
+		simpleSG.addVertex("Dallas");
+		simpleSG.addVertex("Boston"); 
+		simpleSG.addVertex("Denver");
+		simpleSG.addVertex("San Francisco");
+		simpleSG.addVertex("Los 聲geles");
+		simpleSG.addEdge("San Francico", "Los 聲geles", 400);
+		simpleSG.addEdge("San Franciso", "Denver", 1000);
+		simpleSG.addEdge("San Francisco", "Chicago", 1500);
+		simpleSG.addEdge("Los 聲geles", "Chicago", 1400);
+		simpleSG.addEdge("Los 聲geles", "Dallas", 1100);
+		simpleSG.addEdge("Denver", "Chicago", 500);
+		simpleSG.addEdge("Denver", "Dallas", 600);
+		simpleSG.addEdge("Dallas", "Chicago", 800);
+		simpleSG.addEdge("Dallas", "Nueva York", 1200);
+		simpleSG.addEdge("Chicago", "Nueva York", 700);
+		simpleSG.addEdge("Boston", "Nueva York", 300);
+		simpleSG.addEdge("Boston", "Chicago", 900);
+	}
+	
+	public void setUpStage10() {
+		simpleSG = new AdjListGraph<>(false, true);
+		simpleSG.addVertex("A");
+		simpleSG.addVertex("B");
+		simpleSG.addVertex("C");
+		simpleSG.addVertex("D");
+		simpleSG.addVertex("E");
+		simpleSG.addVertex("F");
+		simpleSG.addVertex("G");
+		simpleSG.addEdge("A", "B", 7);
+		simpleSG.addEdge("A", "D", 5);
+		simpleSG.addEdge("D", "B", 9);
+		simpleSG.addEdge("D", "E", 15);
+		simpleSG.addEdge("D", "F", 6);
+		simpleSG.addEdge("F", "E", 8);
+		simpleSG.addEdge("F", "G", 11);
+		simpleSG.addEdge("E", "G", 9);
+		simpleSG.addEdge("C", "E", 5);
+		simpleSG.addEdge("B", "C", 8);
+		simpleSG.addEdge("E", "B", 7);
+	}
+
 	//Basic operation tests
 	
 	@Test
