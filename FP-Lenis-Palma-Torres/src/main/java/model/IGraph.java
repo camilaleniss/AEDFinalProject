@@ -3,6 +3,8 @@ package model;
 import java.util.List;
 
 public interface IGraph<T> {
+	
+	public static final int INF = 12345678;
 
 	public List<Vertex<T>> getVertices();
 	
@@ -10,15 +12,15 @@ public interface IGraph<T> {
 	
 	public boolean isWeighted();
 	
-	//Deberia pedirse como parámetreo el Value
-	//PREGUNTAR SI SE DEBERIA TENER EL MÉTODO QUE RECIBA UN VERTEX COMO PARÁMETRO
+	//Deberia pedirse como parï¿½metreo el Value
+	//PREGUNTAR SI SE DEBERIA TENER EL Mï¿½TODO QUE RECIBA UN VERTEX COMO PARï¿½METRO
 	public void addVertex(T value);
 
 	public void addEdge(T x, T y);
 	
 	public void addEdge(T x, T y, double w);
 	
-	//modificados los 3 métodos de arriba
+	//modificados los 3 mï¿½todos de arriba
 	
 	public void removeVertex(T v);
 	
