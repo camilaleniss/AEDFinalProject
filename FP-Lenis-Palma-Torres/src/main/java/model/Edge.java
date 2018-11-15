@@ -1,6 +1,6 @@
 package model;
 
-public class Edge<T> {
+public class Edge<T> implements Comparable<Edge<T>>{
 
 	private double weight;
 
@@ -31,6 +31,11 @@ public class Edge<T> {
 
 	public Vertex<T> getDestination() {
 		return destination;
+	}
+
+	@Override
+	public int compareTo(Edge<T> o) {
+		return Double.compare(weight, o.weight);
 	}
 
 }
