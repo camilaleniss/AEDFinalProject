@@ -70,9 +70,11 @@ public class AdjListGraph<T> implements IGraph<T> {
 
 	@Override
 	public void addEdge(T x, T y, double w) {
-		AdjVertex<T> from = searchVertex(x);
-		AdjVertex<T> to = searchVertex(y);
-		addEdge(from, to, w);
+		if (weighted) {
+			AdjVertex<T> from = searchVertex(x);
+			AdjVertex<T> to = searchVertex(y);
+			addEdge(from, to, w);
+		}
 	}
 
 	public void addEdge(AdjVertex<T> from, AdjVertex<T> to, double w) {
@@ -96,6 +98,7 @@ public class AdjListGraph<T> implements IGraph<T> {
 			}
 		}
 		vertices.remove(v);
+		map.remove(v.getValue());
 		numberOfVertices--;
 	}
 
@@ -109,25 +112,16 @@ public class AdjListGraph<T> implements IGraph<T> {
 		AdjVertex<T> from = (AdjVertex<T>) x;
 		AdjVertex<T> to = (AdjVertex<T>) y;
 		List<Edge<T>> adjFrom = from.getAdjList();
-		boolean searching = true;
-		for (int i = 0; i < adjFrom.size() && searching; i++) {
-			Edge<T> e = adjFrom.get(i);
-			if (e.getDestination() == to) {
-				adjFrom.remove(e);
-				searching = false;
-			}
-		}
+		Edge<T> e = from.findEdge(to);
+		if(e != null)
+			adjFrom.remove(e);
+		
 
 		if (!isDirected()) {
 			List<Edge<T>> adjTo = to.getAdjList();
-			searching = true;
-			for (int i = 0; i < adjFrom.size() && searching; i++) {
-				Edge<T> e = adjTo.get(i);
-				if (e.getDestination() == from) {
-					adjTo.remove(e);
-					searching = false;
-				}
-			}
+			e = to.findEdge(from);
+			if(e != null)
+				adjTo.remove(e);
 		}
 
 		numberOfEdges--;
@@ -162,31 +156,25 @@ public class AdjListGraph<T> implements IGraph<T> {
 		if (isInGraph(x.getValue()) && isInGraph(y.getValue())) {
 			AdjVertex<T> from = (AdjVertex<T>) x;
 			AdjVertex<T> to = (AdjVertex<T>) y;
-			List<Edge<T>> adjFrom = from.getAdjList();
-			boolean searching = true;
-			for (int i = 0; i < adjFrom.size() && searching; i++) {
-				Edge<T> e = adjFrom.get(i);
-				if (e.getDestination() == to) {
-					w = e.getWeight();
-					searching = false;
-				}
-			}
+			Edge<T> e = from.findEdge(to);
+			if(e != null)
+				w = e.getWeight();
 		}
 		return w;
 	}
 
 	public void setEdgeWeight(Vertex<T> x, Vertex<T> y, double w) {
-		if (isInGraph(x.getValue()) && isInGraph(y.getValue())) {
+		if (isInGraph(x.getValue()) && isInGraph(y.getValue()) && weighted) {
 			AdjVertex<T> from = (AdjVertex<T>) x;
 			AdjVertex<T> to = (AdjVertex<T>) y;
-			List<Edge<T>> adjFrom = from.getAdjList();
-			boolean searching = true;
-			for (int i = 0; i < adjFrom.size() && searching; i++) {
-				Edge<T> e = adjFrom.get(i);
-				if (e.getDestination() == to) {
+			Edge<T> e = from.findEdge(to);
+			if(e != null)
+				e.setWeight(w);
+			
+			if (!isDirected()) {
+				e = to.findEdge(from);
+				if(e != null)
 					e.setWeight(w);
-					searching = false;
-				}
 			}
 		}
 	}
