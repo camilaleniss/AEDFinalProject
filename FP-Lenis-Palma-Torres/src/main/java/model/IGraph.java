@@ -20,9 +20,9 @@ public interface IGraph<T> {
 	
 	//modificados los 3 métodos de arriba
 	
-	public void removeVertex(Vertex<T> v);
+	public void removeVertex(T v);
 	
-	public void removeEdge(Vertex<T> x, Vertex<T> y);
+	public void removeEdge(T x, T y);
 	
 	public List<Vertex<T>> getNeighbors(Vertex<T> x);
 	

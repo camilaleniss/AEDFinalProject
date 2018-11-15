@@ -99,33 +99,43 @@ public class AdjListGraph<T> implements IGraph<T> {
 		numberOfVertices--;
 	}
 
+	public void removeVertex(T v) {
+		if (isInGraph(v)) {
+			removeVertex(searchVertex(v));
+		}
+	}
+
 	public void removeEdge(Vertex<T> x, Vertex<T> y) {
-		if (isInGraph(x.getValue()) && isInGraph(y.getValue())) {
-			AdjVertex<T> from = (AdjVertex<T>) x;
-			AdjVertex<T> to = (AdjVertex<T>) y;
-			List<Edge<T>> adjFrom = from.getAdjList();
-			boolean searching = true;
+		AdjVertex<T> from = (AdjVertex<T>) x;
+		AdjVertex<T> to = (AdjVertex<T>) y;
+		List<Edge<T>> adjFrom = from.getAdjList();
+		boolean searching = true;
+		for (int i = 0; i < adjFrom.size() && searching; i++) {
+			Edge<T> e = adjFrom.get(i);
+			if (e.getDestination() == to) {
+				adjFrom.remove(e);
+				searching = false;
+			}
+		}
+
+		if (!isDirected()) {
+			List<Edge<T>> adjTo = to.getAdjList();
+			searching = true;
 			for (int i = 0; i < adjFrom.size() && searching; i++) {
-				Edge<T> e = adjFrom.get(i);
-				if(e.getDestination() == to) {
-					adjFrom.remove(e);
+				Edge<T> e = adjTo.get(i);
+				if (e.getDestination() == from) {
+					adjTo.remove(e);
 					searching = false;
 				}
 			}
-			
-			if(!isDirected()) {
-				List<Edge<T>> adjTo = to.getAdjList();
-				searching = true;
-				for (int i = 0; i < adjFrom.size() && searching; i++) {
-					Edge<T> e = adjTo.get(i);
-					if(e.getDestination() == from) {
-						adjTo.remove(e);
-						searching = false;
-					}
-				}
-			}
+		}
 
-			numberOfEdges--;
+		numberOfEdges--;
+	}
+
+	public void removeEdge(T x, T y) {
+		if (isInGraph(x) && isInGraph(y)) {
+			removeEdge(searchVertex(x), searchVertex(y));
 		}
 	}
 
@@ -156,7 +166,7 @@ public class AdjListGraph<T> implements IGraph<T> {
 			boolean searching = true;
 			for (int i = 0; i < adjFrom.size() && searching; i++) {
 				Edge<T> e = adjFrom.get(i);
-				if(e.getDestination() == to) {
+				if (e.getDestination() == to) {
 					w = e.getWeight();
 					searching = false;
 				}
@@ -173,7 +183,7 @@ public class AdjListGraph<T> implements IGraph<T> {
 			boolean searching = true;
 			for (int i = 0; i < adjFrom.size() && searching; i++) {
 				Edge<T> e = adjFrom.get(i);
-				if(e.getDestination() == to) {
+				if (e.getDestination() == to) {
 					e.setWeight(w);
 					searching = false;
 				}

@@ -8,6 +8,7 @@ public class TestAdjListGraph {
 
 	private AdjListGraph<Integer> directedG;
 	private AdjListGraph<Integer> simpleG;
+	private AdjListGraph<String> simpleSG;
 	
 	public TestAdjListGraph(){
 		simpleG = new AdjListGraph<Integer>(false, true);
@@ -42,6 +43,50 @@ public class TestAdjListGraph {
 		directedG.addEdge(1, 5, 6);
 		directedG.addEdge(5, 2, 3);
 		directedG.addEdge(7, 5, 5);
+	}
+	
+	public void setUpStage5() {
+		simpleG= new AdjListGraph<Integer>(false, true);
+		simpleG.addVertex(1);
+		simpleG.addVertex(2);
+		simpleG.addVertex(3);
+		simpleG.addVertex(4);
+		simpleG.addEdge(1, 2, 1);
+		simpleG.addEdge(2, 3, 1);
+		simpleG.addEdge(3, 4, 1);
+		simpleG.addEdge(4, 1, 1);
+	}
+	
+	public void setUpStage6() {
+		setUpStage2();
+		directedG.addEdge(1, 2, 3);
+		directedG.addEdge(1, 5, 6);
+		directedG.addEdge(5, 2, 3);
+		directedG.addEdge(7, 5, 5);
+		directedG.addEdge(5, 7, 3);
+		directedG.addEdge(1, 1, 8);
+	}
+	
+	public void setUpStage7() {
+		simpleSG = new AdjListGraph<>(false, false);
+		simpleSG.addVertex("r");
+		simpleSG.addVertex("s");
+		simpleSG.addVertex("t");
+		simpleSG.addVertex("u");
+		simpleSG.addVertex("v");
+		simpleSG.addVertex("w");
+		simpleSG.addVertex("x");
+		simpleSG.addVertex("y");
+		simpleSG.addEdge("r", "v");
+		simpleSG.addEdge("r", "s");
+		simpleSG.addEdge("s", "w");
+		simpleSG.addEdge("w", "t");
+		simpleSG.addEdge("w", "x");
+		simpleSG.addEdge("t", "u");
+		simpleSG.addEdge("t", "x");
+		simpleSG.addEdge("x", "u");
+		simpleSG.addEdge("u", "y");
+		simpleSG.addEdge("x", "y");
 	}
 	
 	//Basic operation tests
