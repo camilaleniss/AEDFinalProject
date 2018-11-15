@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -334,4 +335,35 @@ public class AdjListGraph<T> implements IGraph<T> {
 			}
 		}
 	}
+	
+	public double[][] floydwarshall(){
+		double[][] weights = getWeightsMatrix();
+		for (int k = 0; k < vertices.size(); k++) {
+			for (int i = 0; i < vertices.size(); i++) {
+				for (int j = 0; j < vertices.size(); j++) {
+					weights[i][j] = Math.min(weights[i][j], weights[i][k]+weights[k][j]);
+				}
+			}
+		}
+		return weights;
+	}
+
+	private double[][] getWeightsMatrix() {
+		double[][] weights = new double[vertices.size()][vertices.size()];
+		for (int i = 0; i < weights.length; i++) {
+			Arrays.fill(weights[i], INF);
+		}
+		for (int i = 0; i < vertices.size(); i++) {
+			weights[i][i] = 0;
+			AdjVertex<T> u = (AdjVertex<T>) vertices.get(i);
+			for (Edge<T> e : u.getAdjList()) {
+				AdjVertex<T> v = (AdjVertex<T>) e.getDestination();
+				double weight = e.getWeight();
+				weights[i][getIndexOf(v)] = weight;
+			}
+		}
+		return weights;
+	}
+
+	
 }
