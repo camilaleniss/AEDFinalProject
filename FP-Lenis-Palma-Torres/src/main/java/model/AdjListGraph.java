@@ -36,7 +36,6 @@ public class AdjListGraph<T> implements IGraph<T> {
 	}
 
 	public int getNumberOfEdges() {
-		// Depende de si es o no dirigido / Not really...
 		return numberOfEdges;
 	}
 
