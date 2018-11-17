@@ -161,28 +161,22 @@ public class AdjMatrixGraph<T> implements IGraph<T> {
 
 	public double getEdgeWeight(Vertex<T> x, Vertex<T> y) {
 		double w = 0;
+		int indX = getIndexOf(x);
+		int indY = getIndexOf(y);
 		if (isInGraph(x.getValue()) && isInGraph(y.getValue())) {
-			AdjVertex<T> from = (AdjVertex<T>) x;
-			AdjVertex<T> to = (AdjVertex<T>) y;
-			Edge<T> e = from.findEdge(to);
-			if (e != null)
-				w = e.getWeight();
+			w = weightsMatrix.get(indX).get(indY);
 		}
 		return w;
 	}
 
 	public void setEdgeWeight(Vertex<T> x, Vertex<T> y, double w) {
+		int indX = getIndexOf(x);
+		int indY = getIndexOf(y);
 		if (isInGraph(x.getValue()) && isInGraph(y.getValue()) && weighted) {
-			AdjVertex<T> from = (AdjVertex<T>) x;
-			AdjVertex<T> to = (AdjVertex<T>) y;
-			Edge<T> e = from.findEdge(to);
-			if (e != null)
-				e.setWeight(w);
+			weightsMatrix.get(indX).set(indY,w);
 
 			if (!isDirected()) {
-				e = to.findEdge(from);
-				if (e != null)
-					e.setWeight(w);
+				weightsMatrix.get(indY).set(indX,w);
 			}
 		}
 	}
@@ -203,8 +197,7 @@ public class AdjMatrixGraph<T> implements IGraph<T> {
 		return index;
 	}
 
-	public void bfs(Vertex<T> x) {
-		AdjVertex<T> s = (AdjVertex<T>) x;
+	public void bfs(Vertex<T> s) {
 		for (Vertex<T> u : vertices) {
 			u.setColor(Vertex.WHITE);
 			u.setD(INF);
@@ -213,12 +206,13 @@ public class AdjMatrixGraph<T> implements IGraph<T> {
 		s.setColor(Vertex.GRAY);
 		s.setD(0);
 		s.setPred(null);
-		Queue<AdjVertex<T>> q = new LinkedList<>();
+		Queue<Vertex<T>> q = new LinkedList<>();
 		q.offer(s);
 		while (!q.isEmpty()) {
-			AdjVertex<T> u = q.poll();
-			for (int i = 0; i < u.getAdjList().size(); i++) {
-				AdjVertex<T> v = (AdjVertex<T>) u.getAdjList().get(i).getDestination();
+			Vertex<T> u = q.poll();
+			List<Vertex<T>> neigh = getNeighbors(u);
+			for (int i = 0; i < neigh.size(); i++) {
+				Vertex<T> v = neigh.get(i);
 				if (v.getColor() == Vertex.WHITE) {
 					v.setColor(Vertex.GRAY);
 					v.setD(u.getD() + 1);
@@ -238,16 +232,17 @@ public class AdjMatrixGraph<T> implements IGraph<T> {
 		int time = 0;
 		for (Vertex<T> u : vertices) {
 			if (u.getColor() == Vertex.WHITE)
-				time = dfsVisit((AdjVertex<T>) u, time);
+				time = dfsVisit(u, time);
 		}
 	}
 
-	private int dfsVisit(AdjVertex<T> u, int time) {
+	private int dfsVisit(Vertex<T> u, int time) {
 		time++;
 		u.setD(time);
 		u.setColor(Vertex.GRAY);
-		for (int i = 0; i < u.getAdjList().size(); i++) {
-			AdjVertex<T> v = (AdjVertex<T>) u.getAdjList().get(i).getDestination();
+		List<Vertex<T>> neigh = getNeighbors(u);
+		for (int i = 0; i < neigh.size(); i++) {
+			Vertex<T> v = neigh.get(i);
 			if (v.getColor() == Vertex.WHITE) {
 				v.setPred(u);
 				time = dfsVisit(v, time);
@@ -309,7 +304,7 @@ public class AdjMatrixGraph<T> implements IGraph<T> {
 	// return dist;
 	// }
 
-	private void initSingleSource(AdjVertex<T> s) {
+	private void initSingleSource(Vertex<T> s) {
 		for (Vertex<T> u : vertices) {
 			u.setD(INF);
 			u.setPred(null);
@@ -317,18 +312,16 @@ public class AdjMatrixGraph<T> implements IGraph<T> {
 		s.setD(0);
 	}
 
-	public void dijkstra(Vertex<T> x) {
-		AdjVertex<T> s = (AdjVertex<T>) x;
+	public void dijkstra(Vertex<T> s) {
 		initSingleSource(s);
-		PriorityQueue<AdjVertex<T>> queue = new PriorityQueue<>();
+		PriorityQueue<Vertex<T>> queue = new PriorityQueue<>();
 		queue.add(s);
 		while (!queue.isEmpty()) {
-			AdjVertex<T> u = queue.poll();
+			Vertex<T> u = queue.poll();
+			List<Vertex<T>> neigh = getNeighbors(u);
+			for (Vertex<T> v : neigh) {
 
-			for (Edge<T> e : u.getAdjList()) {
-
-				AdjVertex<T> v = (AdjVertex<T>) e.getDestination();
-				double weight = e.getWeight();
+				double weight = getEdgeWeight(u, v);
 
 				// relax(u,v,weight)
 				double distanceFromU = u.getD() + weight;
@@ -358,39 +351,31 @@ public class AdjMatrixGraph<T> implements IGraph<T> {
 	private double[][] getWeightsMatrix() {
 		double[][] weights = new double[vertices.size()][vertices.size()];
 		for (int i = 0; i < weights.length; i++) {
-			Arrays.fill(weights[i], INF);
-		}
-		for (int i = 0; i < vertices.size(); i++) {
-			weights[i][i] = 0;
-			AdjVertex<T> u = (AdjVertex<T>) vertices.get(i);
-			for (Edge<T> e : u.getAdjList()) {
-				AdjVertex<T> v = (AdjVertex<T>) e.getDestination();
-				double weight = e.getWeight();
-				weights[i][getIndexOf(v)] = weight;
+			for (int j = 0; j < weights.length; j++) {
+				weights[i][j] = weightsMatrix.get(i).get(j);
 			}
 		}
 		return weights;
 	}
 
-	public void prim(Vertex<T> s) {
-		AdjVertex<T> r = (AdjVertex<T>) s;
+	public void prim(Vertex<T> r) {
 		for (Vertex<T> u : vertices) {
 			u.setD(INF);
 			u.setColor(Vertex.WHITE);
 		}
 		r.setD(0);
 		r.setPred(null);
-		PriorityQueue<AdjVertex<T>> queue = new PriorityQueue<>();
+		PriorityQueue<Vertex<T>> queue = new PriorityQueue<>();
 		for (Vertex<T> u : vertices) {
 			queue.add((AdjVertex<T>) u);
 		}
 		while(!queue.isEmpty()) {
-			AdjVertex<T> u = queue.poll();
-			for (Edge<T> e : u.getAdjList()) {
-				AdjVertex<T> v = (AdjVertex<T>) e.getDestination();
-				if(v.getColor() == Vertex.WHITE && e.getWeight() < v.getD()) {
+			Vertex<T> u = queue.poll();
+			List<Vertex<T>> neigh = getNeighbors(u);
+			for (Vertex<T> v : neigh) {
+				if(v.getColor() == Vertex.WHITE && getEdgeWeight(u, v) < v.getD()) {
 					queue.remove(v);
-					v.setD(e.getWeight());
+					v.setD(getEdgeWeight(u, v));
 					queue.add(v);
 					v.setPred(u);
 				}
