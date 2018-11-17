@@ -62,14 +62,14 @@ public class AdjMatrixGraph<T> implements IGraph<T> {
 				adj.add(0);
 				we.add((double) INF);
 			}
-			we.set(we.size()-1, 0.0);
+			we.set(we.size() - 1, 0.0);
 			adjMatrix.add(adj);
 			weightsMatrix.add(we);
 
 			numberOfVertices++;
 		}
 	}
-	
+
 	@Override
 	public void addEdge(T x, T y) {
 		Vertex<T> from = searchVertex(x);
@@ -92,7 +92,7 @@ public class AdjMatrixGraph<T> implements IGraph<T> {
 
 	public void addEdge(Vertex<T> from, Vertex<T> to, double w) {
 		if (from != null && to != null) {
-			
+
 			adjMatrix.get(getIndexOf(from)).set(getIndexOf(to), 1);
 			weightsMatrix.get(getIndexOf(from)).set(getIndexOf(to), w);
 			if (!isDirected()) {
@@ -112,7 +112,7 @@ public class AdjMatrixGraph<T> implements IGraph<T> {
 		}
 		adjMatrix.remove(index);
 		weightsMatrix.remove(index);
-		
+
 		vertices.remove(v);
 		map.remove(v.getValue());
 		numberOfVertices--;
@@ -144,7 +144,7 @@ public class AdjMatrixGraph<T> implements IGraph<T> {
 		List<Vertex<T>> neigh = new ArrayList<>();
 		int index = getIndexOf(x);
 		for (int i = 0; i < adjMatrix.get(index).size(); i++) {
-			if(adjMatrix.get(index).get(i) == 1.0) {
+			if (adjMatrix.get(index).get(i) == 1.0) {
 				neigh.add(vertices.get(i));
 			}
 		}
@@ -173,10 +173,10 @@ public class AdjMatrixGraph<T> implements IGraph<T> {
 		int indX = getIndexOf(x);
 		int indY = getIndexOf(y);
 		if (isInGraph(x.getValue()) && isInGraph(y.getValue()) && weighted) {
-			weightsMatrix.get(indX).set(indY,w);
+			weightsMatrix.get(indX).set(indY, w);
 
 			if (!isDirected()) {
-				weightsMatrix.get(indY).set(indX,w);
+				weightsMatrix.get(indY).set(indX, w);
 			}
 		}
 	}
@@ -335,13 +335,13 @@ public class AdjMatrixGraph<T> implements IGraph<T> {
 			}
 		}
 	}
-	
-	public double[][] floydwarshall(){
+
+	public double[][] floydwarshall() {
 		double[][] weights = getWeightsMatrix();
 		for (int k = 0; k < vertices.size(); k++) {
 			for (int i = 0; i < vertices.size(); i++) {
 				for (int j = 0; j < vertices.size(); j++) {
-					weights[i][j] = Math.min(weights[i][j], weights[i][k]+weights[k][j]);
+					weights[i][j] = Math.min(weights[i][j], weights[i][k] + weights[k][j]);
 				}
 			}
 		}
@@ -369,11 +369,11 @@ public class AdjMatrixGraph<T> implements IGraph<T> {
 		for (Vertex<T> u : vertices) {
 			queue.add((AdjVertex<T>) u);
 		}
-		while(!queue.isEmpty()) {
+		while (!queue.isEmpty()) {
 			Vertex<T> u = queue.poll();
 			List<Vertex<T>> neigh = getNeighbors(u);
 			for (Vertex<T> v : neigh) {
-				if(v.getColor() == Vertex.WHITE && getEdgeWeight(u, v) < v.getD()) {
+				if (v.getColor() == Vertex.WHITE && getEdgeWeight(u, v) < v.getD()) {
 					queue.remove(v);
 					v.setD(getEdgeWeight(u, v));
 					queue.add(v);
@@ -382,5 +382,58 @@ public class AdjMatrixGraph<T> implements IGraph<T> {
 			}
 			u.setColor(Vertex.BLACK);
 		}
-	} 
+	}
+
+	public ArrayList<Edge<T>> kruskal() { // Adapted from
+											// www.geeksforgeeks.org/kruskals-minimum-spanning-tree-algorithm-greedy-algo-2/
+		ArrayList<Edge<T>> result = new ArrayList<>(); // Tnis will store the resultant MST
+		int e = 0; // An index variable, used for result[]
+		int i = 0; // An index variable, used for sorted edges
+
+		ArrayList<Edge<T>> edges = getEdges();
+
+		// Step 1: Sort all the edges in non-decreasing order of their
+		// weight. If we are not allowed to change the given graph, we
+		// can create a copy of array of edges
+		Collections.sort(edges);
+
+		UnionFind uf = new UnionFind(vertices.size());
+
+		i = 0; // Index used to pick next edge
+
+		// Number of edges to be taken is equal to V-1
+		while (e < vertices.size() - 1 && i < edges.size()) {
+			// Step 2: Pick the smallest edge. And increment
+			// the index for next iteration
+			Edge<T> edge = edges.get(i);
+			i++;
+
+			int x = uf.find(getIndexOf(edge.getSource()));
+			int y = uf.find(getIndexOf(edge.getDestination()));
+
+			// If including this edge does't cause cycle,
+			// include it in result and increment the index
+			// of result for next edge
+			if (x != y) {
+				result.add(edge);
+				e++;
+				uf.union(x, y);
+			}
+			// Else discard the edge
+		}
+		return result;
+	}
+
+	public ArrayList<Edge<T>> getEdges() {
+		ArrayList<Edge<T>> edges = new ArrayList<>();
+		for (int i = 0; i < adjMatrix.size(); i++) {
+			for (int j = 0; j < adjMatrix.get(i).size(); j++) {
+				if(adjMatrix.get(i).get(j) == 1) {
+					edges.add(new Edge<>(vertices.get(i), vertices.get(j), weightsMatrix.get(i).get(j)));
+				}
+			}
+		}
+		return edges;
+	}
+
 }

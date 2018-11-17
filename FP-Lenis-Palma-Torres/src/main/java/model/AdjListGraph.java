@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -334,13 +335,13 @@ public class AdjListGraph<T> implements IGraph<T> {
 			}
 		}
 	}
-	
-	public double[][] floydwarshall(){
+
+	public double[][] floydwarshall() {
 		double[][] weights = getWeightsMatrix();
 		for (int k = 0; k < vertices.size(); k++) {
 			for (int i = 0; i < vertices.size(); i++) {
 				for (int j = 0; j < vertices.size(); j++) {
-					weights[i][j] = Math.min(weights[i][j], weights[i][k]+weights[k][j]);
+					weights[i][j] = Math.min(weights[i][j], weights[i][k] + weights[k][j]);
 				}
 			}
 		}
@@ -376,11 +377,11 @@ public class AdjListGraph<T> implements IGraph<T> {
 		for (Vertex<T> u : vertices) {
 			queue.add((AdjVertex<T>) u);
 		}
-		while(!queue.isEmpty()) {
+		while (!queue.isEmpty()) {
 			AdjVertex<T> u = queue.poll();
 			for (Edge<T> e : u.getAdjList()) {
 				AdjVertex<T> v = (AdjVertex<T>) e.getDestination();
-				if(v.getColor() == Vertex.WHITE && e.getWeight() < v.getD()) {
+				if (v.getColor() == Vertex.WHITE && e.getWeight() < v.getD()) {
 					queue.remove(v);
 					v.setD(e.getWeight());
 					queue.add(v);
@@ -389,7 +390,57 @@ public class AdjListGraph<T> implements IGraph<T> {
 			}
 			u.setColor(Vertex.BLACK);
 		}
-	} 
-	
-	
+	}
+
+	public ArrayList<Edge<T>> kruskal() { // Adapted from
+											// www.geeksforgeeks.org/kruskals-minimum-spanning-tree-algorithm-greedy-algo-2/
+		ArrayList<Edge<T>> result = new ArrayList<>(); // Tnis will store the resultant MST
+		int e = 0; // An index variable, used for result[]
+		int i = 0; // An index variable, used for sorted edges
+
+		ArrayList<Edge<T>> edges = getEdges();
+
+		// Step 1: Sort all the edges in non-decreasing order of their
+		// weight. If we are not allowed to change the given graph, we
+		// can create a copy of array of edges
+		Collections.sort(edges);
+
+		UnionFind uf = new UnionFind(vertices.size());
+
+		i = 0; // Index used to pick next edge
+
+		// Number of edges to be taken is equal to V-1
+		while (e < vertices.size() - 1 && i < edges.size()) {
+			// Step 2: Pick the smallest edge. And increment
+			// the index for next iteration
+			Edge<T> edge = edges.get(i);
+			i++;
+
+			int x = uf.find(getIndexOf(edge.getSource()));
+			int y = uf.find(getIndexOf(edge.getDestination()));
+
+			// If including this edge does't cause cycle,
+			// include it in result and increment the index
+			// of result for next edge
+			if (x != y) {
+				result.add(edge);
+				e++;
+				uf.union(x, y);
+			}
+			// Else discard the edge
+		}
+		return result;
+	}
+
+	public ArrayList<Edge<T>> getEdges() {
+		ArrayList<Edge<T>> edges = new ArrayList<>();
+		for (int i = 0; i < vertices.size(); i++) {
+			AdjVertex<T> v = (AdjVertex<T>) vertices.get(i);
+			for (int j = 0; j < v.getAdjList().size(); j++) {
+				edges.add(v.getAdjList().get(j));
+			}
+		}
+		return edges;
+	}
+
 }
