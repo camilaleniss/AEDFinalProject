@@ -9,7 +9,7 @@ public class Vertex<T> implements Comparable<Vertex<T>>{
 	private T value;
 	//Distance
 	private double d;
-	//IDK
+	
 	private int f;
 	
 	private int index;
