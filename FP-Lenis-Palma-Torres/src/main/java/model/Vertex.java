@@ -7,7 +7,7 @@ public class Vertex<T> implements Comparable<Vertex<T>>{
 	public static final int BLACK = 2;
 	
 	private T value;
-	//Distance
+
 	private double d;
 	
 	private int f;

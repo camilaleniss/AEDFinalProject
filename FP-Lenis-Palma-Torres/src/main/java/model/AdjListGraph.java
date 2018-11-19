@@ -8,7 +8,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
-
+/**
+ * 
+ * @author Maria Camila Lenis Restrepo
+ * 			Juan Sebastian Palma García
+ * 			Javier Andrés Torres Reyes
+ *
+ * @param <T>
+ */
 public class AdjListGraph<T> implements IGraph<T> {
 
 	private boolean directed;

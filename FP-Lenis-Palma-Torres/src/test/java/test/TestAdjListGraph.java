@@ -156,6 +156,13 @@ public class TestAdjListGraph {
 		setUpStage4();
 		directedG.addEdge(5, 7, 3);
 	}
+	
+	public void setUpStage12() {
+		directedG = new  AdjListGraph<>(true, true);
+		directedG.addVertex(3);
+		directedG.addVertex(4);
+		directedG.addVertex(5);
+	}
 
 	//Basic operation tests
 	
@@ -248,4 +255,76 @@ public class TestAdjListGraph {
 		assertTrue(simpleG.searchVertex(3).getAdjList().get(0).getDestination().getValue()==4);
 	}
 	
+	@Test
+	public void testRemoveEdge() {
+		
+	}
+	
+	@Test
+	public void testSearchVertex() {
+		
+	}
+	
+	@Test
+	public void testAreAdjacent() {
+		
+	}
+	
+	@Test
+	public void testBfs() {
+		//Test 1
+		setUpStage7();
+		simpleSG.bfs(simpleSG.searchVertex("u"));
+		assertTrue(simpleSG.searchVertex("u").getPred()==null);
+		assertTrue(simpleSG.searchVertex("v").getPred().getValue().equals("r"));
+		assertTrue(simpleSG.searchVertex("r").getPred().getValue().equals("s"));
+		assertTrue(simpleSG.searchVertex("s").getPred().getValue().equals("w"));
+		assertTrue(simpleSG.searchVertex("w").getPred().getValue().equals("t"));
+		assertTrue(simpleSG.searchVertex("t").getPred().getValue().equals("u"));
+		assertTrue(simpleSG.searchVertex("x").getPred().getValue().equals("u"));
+		assertTrue(simpleSG.searchVertex("y").getPred().getValue().equals("u"));
+		
+		//Test 2
+		setUpStage8();
+		simpleG.bfs(simpleG.searchVertex(3));
+		assertTrue(simpleG.searchVertex(3).getPred()==null);
+		assertTrue(simpleG.searchVertex(2).getPred().getValue()==3);
+		assertTrue(simpleG.searchVertex(4).getPred().getValue()==3);
+		assertTrue(simpleG.searchVertex(1).getPred().getValue()==2);
+		assertTrue(simpleG.searchVertex(5).getPred().getValue()==2);
+		
+		//Test 3
+		setUpStage12();
+		directedG.bfs(directedG.searchVertex(3));
+		assertTrue(directedG.searchVertex(3).getPred()==null);
+		assertTrue(directedG.searchVertex(4).getPred()==null);
+		assertTrue(directedG.searchVertex(5).getPred()==null);
+		assertTrue(directedG.getVertices().size()==3);
+		
+	}
+	
+	@Test
+	public void testDfs() {
+		
+	}
+	
+	@Test
+	public void testDijkstra() {
+		
+	}
+	
+	@Test
+	public void testFloydWarshall() {
+		
+	}
+	
+	@Test
+	public void testPrim() {
+		
+	}
+	
+	@Test
+	public void testKruskal() {
+		
+	}
 }
