@@ -106,7 +106,7 @@ public class TestAdjListGraph {
 	}
 	
 	public void setUpStage9() {
-		//EXAMPLE OF "Matemática discreta y sus aplicaciones"
+		//EXAMPLE OF "Matemï¿½tica discreta y sus aplicaciones"
 		simpleSG = new AdjListGraph<>(false, true);
 		simpleSG.addVertex("Boston");
 		simpleSG.addVertex("Nueva York");
@@ -115,12 +115,12 @@ public class TestAdjListGraph {
 		simpleSG.addVertex("Boston"); 
 		simpleSG.addVertex("Denver");
 		simpleSG.addVertex("San Francisco");
-		simpleSG.addVertex("Los Ángeles");
-		simpleSG.addEdge("San Francico", "Los Ángeles", 400);
+		simpleSG.addVertex("Los ï¿½ngeles");
+		simpleSG.addEdge("San Francico", "Los ï¿½ngeles", 400);
 		simpleSG.addEdge("San Franciso", "Denver", 1000);
 		simpleSG.addEdge("San Francisco", "Chicago", 1500);
-		simpleSG.addEdge("Los Ángeles", "Chicago", 1400);
-		simpleSG.addEdge("Los Ángeles", "Dallas", 1100);
+		simpleSG.addEdge("Los ï¿½ngeles", "Chicago", 1400);
+		simpleSG.addEdge("Los ï¿½ngeles", "Dallas", 1100);
 		simpleSG.addEdge("Denver", "Chicago", 500);
 		simpleSG.addEdge("Denver", "Dallas", 600);
 		simpleSG.addEdge("Dallas", "Chicago", 800);
@@ -150,6 +150,11 @@ public class TestAdjListGraph {
 		simpleSG.addEdge("C", "E", 5);
 		simpleSG.addEdge("B", "C", 8);
 		simpleSG.addEdge("E", "B", 7);
+	}
+	
+	public void setUpStage11() {
+		setUpStage4();
+		directedG.addEdge(5, 7, 3);
 	}
 
 	//Basic operation tests
@@ -212,5 +217,35 @@ public class TestAdjListGraph {
 		assertTrue(directedG.searchVertex(5).findEdge(directedG.searchVertex(2)).getWeight()==3);
 	}
 	
+	@Test
+	public void testRemoveVertex() {
+		//Test 1
+		setUpStage11();
+		directedG.removeVertex(2);
+		assertTrue(directedG.searchVertex(1).getAdjList().size()==1);
+		assertTrue(directedG.searchVertex(1).getAdjList().get(0).getDestination().getValue()==5);
+		assertTrue(directedG.searchVertex(5).getAdjList().size()==1);
+		assertTrue(directedG.searchVertex(5).getAdjList().get(0).getDestination().getValue()==7);
+		
+		//Test 2
+		setUpStage11();
+		directedG.removeVertex(1);
+		assertTrue(directedG.searchVertex(1)==null);
+		
+		//Test 3
+		setUpStage11();
+		directedG.removeVertex(5);
+		assertTrue(directedG.searchVertex(1).getAdjList().size()==1);
+		assertTrue(directedG.searchVertex(1).getAdjList().get(0).getDestination().getValue()==2);
+		assertTrue(directedG.searchVertex(7).getAdjList().size()==0);
+		
+		//Test 4
+		setUpStage5();
+		simpleG.removeVertex(2);
+		assertTrue(simpleG.searchVertex(1).getAdjList().size()==1);
+		assertTrue(simpleG.searchVertex(1).getAdjList().get(0).getDestination().getValue()==4);
+		assertTrue(simpleG.searchVertex(3).getAdjList().size()==1);
+		assertTrue(simpleG.searchVertex(3).getAdjList().get(0).getDestination().getValue()==4);
+	}
 	
 }
