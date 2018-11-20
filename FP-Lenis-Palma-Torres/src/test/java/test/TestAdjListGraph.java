@@ -3,6 +3,8 @@ package test;
 import static org.junit.Assert.*;
 import org.junit.Test;
 import model.AdjListGraph;
+import model.AdjVertex;
+import model.Vertex;
 
 public class TestAdjListGraph {
 
@@ -290,13 +292,45 @@ public class TestAdjListGraph {
 	
 	@Test
 	public void testSearchVertex() {
+		AdjVertex<Integer> ver;
 		
+		//Test 1
+		setUpStage5();
+		ver= simpleG.searchVertex(1);
+		assertTrue(ver.getValue()==1);
+		assertTrue(ver.getAdjList().size()==2);
+		assertTrue(ver.isAdjacent(simpleG.searchVertex(2)));
+		assertTrue(ver.isAdjacent(simpleG.searchVertex(4)));
+		
+		//Test 2
+		ver= simpleG.searchVertex(5);
+		assertTrue(ver==null);
+		
+		//Test 3
+		setUpStage13();
+		ver = directedG.searchVertex(2);
+		assertTrue(ver.getValue()==2);
+		assertTrue(ver.getAdjList().size()==0);
+		
+		//Test 4
+		ver = directedG.searchVertex(1);
+		assertTrue(ver.getValue()==1);
+		assertTrue(ver.getAdjList().size()==3);
+		assertTrue(ver.isAdjacent(directedG.searchVertex(1)));
+		assertTrue(ver.isAdjacent(directedG.searchVertex(2)));
+		assertTrue(ver.isAdjacent(directedG.searchVertex(5)));
+		
+		//Test
+		ver= directedG.searchVertex(8);
+		assertTrue(ver==null);
 	}
 	
 	@Test
 	public void testAreAdjacent() {
 		
 	}
+	
+	//Algorithms test
 	
 	@Test
 	public void testBfs() {
