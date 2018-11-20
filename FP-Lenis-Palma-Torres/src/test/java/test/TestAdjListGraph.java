@@ -163,6 +163,11 @@ public class TestAdjListGraph {
 		directedG.addVertex(4);
 		directedG.addVertex(5);
 	}
+	
+	public void setUpStage13() {
+		setUpStage11();
+		directedG.addEdge(1, 1, 8);
+	}
 
 	//Basic operation tests
 	
@@ -257,7 +262,30 @@ public class TestAdjListGraph {
 	
 	@Test
 	public void testRemoveEdge() {
+		//Test 1
+		setUpStage13();
+		directedG.removeEdge(1, 2);
+		assertTrue(directedG.searchVertex(1).getAdjList().size()==2);
+		assertTrue(directedG.searchVertex(1).getAdjList().get(0).getDestination().getValue()==5);
+		assertTrue(directedG.searchVertex(1).getAdjList().get(1).getDestination().getValue()==1);
 		
+		//Test 2
+		setUpStage13();
+		directedG.removeEdge(5, 7);
+		assertTrue(directedG.searchVertex(7).isAdjacent(directedG.searchVertex(5)));
+		assertTrue(!directedG.searchVertex(5).isAdjacent(directedG.searchVertex(7)));
+		
+		//Test 3
+		setUpStage5();
+		simpleG.removeEdge(1, 2);
+		assertTrue(!simpleG.searchVertex(1).isAdjacent(simpleG.searchVertex(2)));
+		assertTrue(!simpleG.searchVertex(2).isAdjacent(simpleG.searchVertex(1)));
+		
+		//Test 4
+		setUpStage5();
+		simpleG.removeEdge(3, 4);
+		assertTrue(!simpleG.searchVertex(3).isAdjacent(simpleG.searchVertex(4)));
+		assertTrue(!simpleG.searchVertex(4).isAdjacent(simpleG.searchVertex(3)));
 	}
 	
 	@Test
