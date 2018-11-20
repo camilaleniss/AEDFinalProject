@@ -12,7 +12,7 @@ public class AdjMatrixGraph<T> implements IGraph<T> {
 	private List<Vertex<T>> vertices;
 	private List<ArrayList<Integer>> adjMatrix;
 	private List<ArrayList<Double>> weightsMatrix;
-	private HashMap<T, AdjVertex<T>> map;
+	private HashMap<T, Vertex<T>> map;
 
 	public AdjMatrixGraph(boolean directed, boolean weighted) {
 		this.directed = directed;
@@ -48,7 +48,7 @@ public class AdjMatrixGraph<T> implements IGraph<T> {
 	@Override
 	public void addVertex(T value) {
 		if (!isInGraph(value)) {
-			AdjVertex<T> vertex = new AdjVertex<T>(value);
+			Vertex<T> vertex = new Vertex<T>(value);
 			map.put(value, vertex);
 			vertices.add(vertex);
 
@@ -181,7 +181,7 @@ public class AdjMatrixGraph<T> implements IGraph<T> {
 		}
 	}
 
-	public AdjVertex<T> searchVertex(T value) {
+	public Vertex<T> searchVertex(T value) {
 		return map.get(value);
 	}
 
@@ -254,11 +254,11 @@ public class AdjMatrixGraph<T> implements IGraph<T> {
 		return time;
 	}
 
-	// public double[] dijkstra(AdjVertex<T> vertex) {
+	// public double[] dijkstra(Vertex<T> vertex) {
 	// // Initialization
 	// double[] dist = new double[numberOfVertices];
 	// boolean[] visit = new boolean[numberOfVertices];
-	// PriorityQueue<AdjVertex<T>> s = new PriorityQueue<>();
+	// PriorityQueue<Vertex<T>> s = new PriorityQueue<>();
 	//
 	// int index = vertex.getIndex();
 	//
@@ -277,7 +277,7 @@ public class AdjMatrixGraph<T> implements IGraph<T> {
 	// // Dijkstra Algorithm
 	//
 	// while (!s.isEmpty()) {
-	// AdjVertex<T> p = s.poll();
+	// Vertex<T> p = s.poll();
 	// // Index of the vertex
 	// int x = p.getIndex();
 	// // Update visit array
@@ -293,7 +293,7 @@ public class AdjMatrixGraph<T> implements IGraph<T> {
 	//
 	// if (dist[x] + w < dist[e]) {
 	// dist[e] = dist[x] + w;
-	// AdjVertex<T> toAdd = new AdjVertex<T>(adjVertex.getDestination().getValue());
+	// Vertex<T> toAdd = new Vertex<T>(adjVertex.getDestination().getValue());
 	// toAdd.setIndex(e);
 	// toAdd.setD(dist[e]);
 	// s.add(toAdd);
@@ -348,7 +348,7 @@ public class AdjMatrixGraph<T> implements IGraph<T> {
 		return weights;
 	}
 
-	private double[][] getWeightsMatrix() {
+	public double[][] getWeightsMatrix() {
 		double[][] weights = new double[vertices.size()][vertices.size()];
 		for (int i = 0; i < weights.length; i++) {
 			for (int j = 0; j < weights.length; j++) {
@@ -367,7 +367,7 @@ public class AdjMatrixGraph<T> implements IGraph<T> {
 		r.setPred(null);
 		PriorityQueue<Vertex<T>> queue = new PriorityQueue<>();
 		for (Vertex<T> u : vertices) {
-			queue.add((AdjVertex<T>) u);
+			queue.add(u);
 		}
 		while (!queue.isEmpty()) {
 			Vertex<T> u = queue.poll();
@@ -435,5 +435,11 @@ public class AdjMatrixGraph<T> implements IGraph<T> {
 		}
 		return edges;
 	}
+
+	public List<ArrayList<Integer>> getAdjMatrix() {
+		return adjMatrix;
+	}
+	
+	
 
 }
