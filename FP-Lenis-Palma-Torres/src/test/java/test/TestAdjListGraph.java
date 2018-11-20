@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import model.AdjListGraph;
 import model.AdjVertex;
-import model.Vertex;
 
 public class TestAdjListGraph {
 
@@ -101,10 +100,12 @@ public class TestAdjListGraph {
 		simpleG.addVertex(5);
 		simpleG.addEdge(1,2);
 		simpleG.addEdge(1,5);
+		simpleG.addEdge(2,3);
+		simpleG.addEdge(2,4);
 		simpleG.addEdge(2,5);
 		simpleG.addEdge(5,4);
-		simpleG.addEdge(2,4);
-		simpleG.addEdge(2,3);
+		
+		
 		simpleG.addEdge(3,4);
 	}
 	
@@ -196,6 +197,16 @@ public class TestAdjListGraph {
 		simpleG.addVertex(2);
 		simpleG.addVertex(3);
 		simpleG.addVertex(4);	
+	}
+	
+	public void setUpStage16() {
+		simpleG = new AdjListGraph<Integer>(false, true);
+		simpleG.addVertex(1);
+		simpleG.addVertex(2);
+		simpleG.addVertex(3);
+		simpleG.addVertex(4);
+		simpleG.addEdge(1, 2, 4);
+		simpleG.addEdge(1, 3, 2);
 	}
 
 	//Basic operation tests
@@ -439,21 +450,37 @@ public class TestAdjListGraph {
 		//Verify the predecessors
 		assertTrue(simpleG.searchVertex(1).getPred()==null);
 		assertTrue(simpleG.searchVertex(2).getPred().getValue()==1);
-		assertTrue(simpleG.searchVertex(3).getPred().getValue()==4);
-		assertTrue(simpleG.searchVertex(4).getPred().getValue()==5);
-		assertTrue(simpleG.searchVertex(5).getPred().getValue()==2);
+		assertTrue(simpleG.searchVertex(3).getPred().getValue()==2);
+		assertTrue(simpleG.searchVertex(4).getPred().getValue()==3);
+		assertTrue(simpleG.searchVertex(5).getPred().getValue()==4);
 		//Verify the TimeStamps
 		assertTrue(simpleG.searchVertex(1).getD()==1 && simpleG.searchVertex(1).getF()==10);
-		
-		//THIS IS WHERE THE TEST FAILS DUE TO THE ORDER OF THE DISCOVER FO VERTICES 
-		assertTrue(simpleG.searchVertex(2).getD()==2 && simpleG.searchVertex(1).getF()==9);
-		assertTrue(simpleG.searchVertex(3).getD()==3 && simpleG.searchVertex(1).getF()==8);
-		assertTrue(simpleG.searchVertex(4).getD()==4 && simpleG.searchVertex(1).getF()==7);
-		assertTrue(simpleG.searchVertex(5).getD()==5 && simpleG.searchVertex(1).getF()==6);
+		assertTrue(simpleG.searchVertex(2).getD()==2 && simpleG.searchVertex(2).getF()==9);
+		assertTrue(simpleG.searchVertex(3).getD()==3 && simpleG.searchVertex(3).getF()==8);
+		assertTrue(simpleG.searchVertex(4).getD()==4 && simpleG.searchVertex(4).getF()==7);
+		assertTrue(simpleG.searchVertex(5).getD()==5 && simpleG.searchVertex(5).getF()==6);
 	}
 	
 	@Test
 	public void testDijkstra() {
+		setUpStage9();
+		//Test 1
+		simpleSG.dijkstra(simpleSG.searchVertex("Dallas"));
+		assertTrue(simpleSG.searchVertex("Boston").getD()==1500);
+		
+		//Test 2
+		simpleSG.dijkstra(simpleSG.searchVertex("San Francisco"));
+		System.out.println(simpleSG.searchVertex("Dallas").getD());
+		assertTrue(simpleSG.searchVertex("Dallas").getD()==1500);
+		
+		//Test 3
+		simpleSG.dijkstra(simpleSG.searchVertex("Chicago"));
+		assertTrue(simpleSG.searchVertex("Los Angeles").getD()==1400);
+		
+		//Test 4
+		setUpStage16();
+		simpleG.dijkstra(simpleG.searchVertex(1));	
+		assertTrue(simpleG.searchVertex(4).getD()==AdjListGraph.INF);
 		
 	}
 	

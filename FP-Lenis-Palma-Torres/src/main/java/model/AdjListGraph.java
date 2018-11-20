@@ -243,6 +243,7 @@ public class AdjListGraph<T> implements IGraph<T> {
 	}
 
 	private int dfsVisit(AdjVertex<T> u, int time) {
+		//AQUI DEBERÍA IR EL LLAMADO AL MÉTODO DE ORDENAMIENTO
 		time++;
 		u.setD(time);
 		u.setColor(Vertex.GRAY);
@@ -324,12 +325,9 @@ public class AdjListGraph<T> implements IGraph<T> {
 		queue.add(s);
 		while (!queue.isEmpty()) {
 			AdjVertex<T> u = queue.poll();
-
 			for (Edge<T> e : u.getAdjList()) {
-
 				AdjVertex<T> v = (AdjVertex<T>) e.getDestination();
 				double weight = e.getWeight();
-
 				// relax(u,v,weight)
 				double distanceFromU = u.getD() + weight;
 				if (distanceFromU < v.getD()) {
@@ -337,7 +335,6 @@ public class AdjListGraph<T> implements IGraph<T> {
 					v.setD(distanceFromU);
 					v.setPred(u);
 					queue.add(v);
-
 				}
 			}
 		}

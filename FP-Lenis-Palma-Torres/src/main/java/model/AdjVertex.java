@@ -31,5 +31,6 @@ public class AdjVertex<T> extends Vertex<T> {
 		}
 		return null;
 	}
+	
 
 }
