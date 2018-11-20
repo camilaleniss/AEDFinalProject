@@ -8,8 +8,13 @@ public class Vertex<T> implements Comparable<Vertex<T>>{
 	
 	private T value;
 
+	/**
+	 * Distance or Initial TimeSTamp for DFS
+	 */
 	private double d;
-	
+	/**
+	 * Final TimeStamp for DFS
+	 */
 	private int f;
 	
 	private int index;

@@ -11,6 +11,7 @@ public class TestAdjListGraph {
 	private AdjListGraph<Integer> directedG;
 	private AdjListGraph<Integer> simpleG;
 	private AdjListGraph<String> simpleSG;
+	private AdjListGraph<Character> directedCG;
 	
 	public TestAdjListGraph(){
 		simpleG = new AdjListGraph<Integer>(false, true);
@@ -117,12 +118,12 @@ public class TestAdjListGraph {
 		simpleSG.addVertex("Boston"); 
 		simpleSG.addVertex("Denver");
 		simpleSG.addVertex("San Francisco");
-		simpleSG.addVertex("Los �ngeles");
-		simpleSG.addEdge("San Francico", "Los �ngeles", 400);
+		simpleSG.addVertex("Los Angeles");
+		simpleSG.addEdge("San Francico", "Los Angeles", 400);
 		simpleSG.addEdge("San Franciso", "Denver", 1000);
 		simpleSG.addEdge("San Francisco", "Chicago", 1500);
-		simpleSG.addEdge("Los �ngeles", "Chicago", 1400);
-		simpleSG.addEdge("Los �ngeles", "Dallas", 1100);
+		simpleSG.addEdge("Los Angeles", "Chicago", 1400);
+		simpleSG.addEdge("Los Angeles", "Dallas", 1100);
 		simpleSG.addEdge("Denver", "Chicago", 500);
 		simpleSG.addEdge("Denver", "Dallas", 600);
 		simpleSG.addEdge("Dallas", "Chicago", 800);
@@ -169,6 +170,32 @@ public class TestAdjListGraph {
 	public void setUpStage13() {
 		setUpStage11();
 		directedG.addEdge(1, 1, 8);
+	}
+	
+	public void setUpStage14() {
+		directedCG = new AdjListGraph<Character>(true, false);
+		directedCG.addVertex('u');
+		directedCG.addVertex('v');
+		directedCG.addVertex('w');
+		directedCG.addVertex('x');
+		directedCG.addVertex('y');
+		directedCG.addVertex('z');
+		directedCG.addEdge('u', 'v');
+		directedCG.addEdge('u', 'x');
+		directedCG.addEdge('x', 'v');
+		directedCG.addEdge('v', 'y');
+		directedCG.addEdge('y', 'x');
+		directedCG.addEdge('w', 'y');
+		directedCG.addEdge('w', 'z');
+		directedCG.addEdge('z', 'z');
+	}
+	
+	public void setUpStage15() {
+		simpleG = new AdjListGraph<Integer>(false, false);
+		simpleG.addVertex(1);
+		simpleG.addVertex(2);
+		simpleG.addVertex(3);
+		simpleG.addVertex(4);	
 	}
 
 	//Basic operation tests
@@ -327,7 +354,22 @@ public class TestAdjListGraph {
 	
 	@Test
 	public void testAreAdjacent() {
+		//Test 1
+		setUpStage5();
+		assertTrue(simpleG.areAdjacent(simpleG.searchVertex(1), simpleG.searchVertex(2)));
 		
+		//Test 2
+		assertTrue(!simpleG.areAdjacent(simpleG.searchVertex(1), simpleG.searchVertex(3)));
+		
+		//Test 3
+		setUpStage13();
+		assertTrue(directedG.areAdjacent(directedG.searchVertex(1), directedG.searchVertex(2)));
+		
+		//Test 4
+		assertTrue(!directedG.areAdjacent(directedG.searchVertex(2), directedG.searchVertex(1)));
+	
+		//Test 5
+		assertTrue(directedG.areAdjacent(directedG.searchVertex(1), directedG.searchVertex(1)));
 	}
 	
 	//Algorithms test
@@ -367,7 +409,47 @@ public class TestAdjListGraph {
 	
 	@Test
 	public void testDfs() {
+		//Test 1
+		setUpStage14();
+		directedCG.dfs();
+		//Verify the predecessors
+		assertTrue(directedCG.searchVertex('x').getPred().getValue()=='y');
+		assertTrue(directedCG.searchVertex('y').getPred().getValue()=='v');
+		assertTrue(directedCG.searchVertex('v').getPred().getValue()=='u');
+		assertTrue(directedCG.searchVertex('u').getPred()==null);
+		assertTrue(directedCG.searchVertex('z').getPred().getValue()=='w');
+		assertTrue(directedCG.searchVertex('w').getPred()==null);
+		//Verify the TimeStamps
+		assertTrue(directedCG.searchVertex('u').getD()==1 && directedCG.searchVertex('u').getF()==8);
+		assertTrue(directedCG.searchVertex('v').getD()==2 && directedCG.searchVertex('v').getF()==7);
+		assertTrue(directedCG.searchVertex('w').getD()==9 && directedCG.searchVertex('w').getF()==12);
+		assertTrue(directedCG.searchVertex('x').getD()==4 && directedCG.searchVertex('x').getF()==5);
+		assertTrue(directedCG.searchVertex('y').getD()==3 && directedCG.searchVertex('y').getF()==6);
+		assertTrue(directedCG.searchVertex('z').getD()==10 && directedCG.searchVertex('z').getF()==11);
 		
+		//Test 2
+		setUpStage15();
+		simpleG.dfs();
+		for (int i=0; i<simpleG.getVertices().size(); i++)
+			assertTrue(simpleG.getVertices().get(i).getPred()==null);
+		
+		//Test 3
+		setUpStage8();
+		simpleG.dfs();
+		//Verify the predecessors
+		assertTrue(simpleG.searchVertex(1).getPred()==null);
+		assertTrue(simpleG.searchVertex(2).getPred().getValue()==1);
+		assertTrue(simpleG.searchVertex(3).getPred().getValue()==4);
+		assertTrue(simpleG.searchVertex(4).getPred().getValue()==5);
+		assertTrue(simpleG.searchVertex(5).getPred().getValue()==2);
+		//Verify the TimeStamps
+		assertTrue(simpleG.searchVertex(1).getD()==1 && simpleG.searchVertex(1).getF()==10);
+		
+		//THIS IS WHERE THE TEST FAILS DUE TO THE ORDER OF THE DISCOVER FO VERTICES 
+		assertTrue(simpleG.searchVertex(2).getD()==2 && simpleG.searchVertex(1).getF()==9);
+		assertTrue(simpleG.searchVertex(3).getD()==3 && simpleG.searchVertex(1).getF()==8);
+		assertTrue(simpleG.searchVertex(4).getD()==4 && simpleG.searchVertex(1).getF()==7);
+		assertTrue(simpleG.searchVertex(5).getD()==5 && simpleG.searchVertex(1).getF()==6);
 	}
 	
 	@Test
