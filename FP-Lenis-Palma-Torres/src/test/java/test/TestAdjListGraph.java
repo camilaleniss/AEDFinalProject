@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import model.AdjListGraph;
 import model.AdjVertex;
+import model.IGraph;
 
 public class TestAdjListGraph {
 
@@ -104,8 +105,6 @@ public class TestAdjListGraph {
 		simpleG.addEdge(2,4);
 		simpleG.addEdge(2,5);
 		simpleG.addEdge(5,4);
-		
-		
 		simpleG.addEdge(3,4);
 	}
 	
@@ -207,6 +206,54 @@ public class TestAdjListGraph {
 		simpleG.addVertex(4);
 		simpleG.addEdge(1, 2, 4);
 		simpleG.addEdge(1, 3, 2);
+	}
+	
+	public void setUpStage17() {
+		directedG= new AdjListGraph<Integer>(true, true);
+		directedG.addVertex(1);
+		directedG.addVertex(2);
+		directedG.addVertex(3);
+		directedG.addVertex(4);
+		directedG.addEdge(1, 3, -2);
+		directedG.addEdge(3, 4, 2);
+		directedG.addEdge(4, 2, -1);
+		directedG.addEdge(2, 1, 4);
+		directedG.addEdge(2, 3, 3);
+	}
+	
+	public void setUpStage18() {
+		directedG= new AdjListGraph<Integer>(true, true);
+		directedG.addVertex(1);
+		directedG.addVertex(2);
+		directedG.addVertex(3);
+		directedG.addVertex(4);
+		directedG.addEdge(1, 3, 9);
+		directedG.addEdge(3, 4, 2);
+		directedG.addEdge(4, 2, 3);
+		directedG.addEdge(1, 2, 5);
+		directedG.addEdge(2, 3, 1);
+	}
+	
+	public void setUpStage19() {
+		directedCG = new AdjListGraph<>(true, true);
+		directedCG.addVertex('A');
+		directedCG.addVertex('B');
+		directedCG.addVertex('C');
+		directedCG.addVertex('D');
+		directedCG.addVertex('E');
+		directedCG.addEdge('A', 'D', 60);
+		directedCG.addEdge('A', 'C', 12);
+		directedCG.addEdge('B', 'A', 10);
+		directedCG.addEdge('C', 'B', 20);
+		directedCG.addEdge('C', 'D', 32);
+		directedCG.addEdge('E', 'A', 7);
+	}
+	
+	public void setUpStage20() {
+		simpleG= new AdjListGraph<>(false, true);
+		simpleG.addVertex(1);
+		simpleG.addVertex(2);
+		simpleG.addVertex(3);
 	}
 
 	//Basic operation tests
@@ -487,7 +534,83 @@ public class TestAdjListGraph {
 	
 	@Test
 	public void testFloydWarshall() {
+		double [][] matrix;
 		
+		//Test 1
+		setUpStage17();
+		matrix=directedG.floydwarshall();
+		assertDiagMatrix(matrix);
+		assertTrue(matrix[0][1]==-1);
+		assertTrue(matrix[0][2]==-2);
+		assertTrue(matrix[0][3]==0);
+		assertTrue(matrix[1][0]==4);
+		assertTrue(matrix[1][2]==2);
+		assertTrue(matrix[1][3]==4);
+		assertTrue(matrix[2][0]==5);
+		assertTrue(matrix[2][1]==1);
+		assertTrue(matrix[2][3]==2);
+		assertTrue(matrix[3][0]==3);
+		assertTrue(matrix[3][1]==-1);
+		assertTrue(matrix[3][2]==1);
+		
+		//Test 2
+		setUpStage18();
+		matrix=directedG.floydwarshall();
+		assertDiagMatrix(matrix);
+		assertTrue(matrix[0][1]==5);
+		assertTrue(matrix[0][2]==6);
+		assertTrue(matrix[0][3]==8);
+		assertTrue(matrix[1][0]==IGraph.INF);
+		assertTrue(matrix[1][2]==1);
+		assertTrue(matrix[1][3]==3);
+		assertTrue(matrix[2][0]==IGraph.INF);
+		assertTrue(matrix[2][1]==5);
+		assertTrue(matrix[2][3]==2);
+		assertTrue(matrix[3][0]==IGraph.INF);
+		assertTrue(matrix[3][1]==3);
+		assertTrue(matrix[3][2]==4);
+		
+		//Test 4
+		setUpStage19();
+		matrix=directedCG.floydwarshall();
+		assertDiagMatrix(matrix);
+		assertTrue(matrix[0][1]==32);
+		assertTrue(matrix[0][2]==12);
+		assertTrue(matrix[0][3]==44);
+		assertTrue(matrix[0][4]==IGraph.INF);
+		assertTrue(matrix[1][0]==10);
+		assertTrue(matrix[1][2]==22);
+		assertTrue(matrix[1][3]==54);
+		assertTrue(matrix[1][4]==IGraph.INF);
+		assertTrue(matrix[2][0]==30);
+		assertTrue(matrix[2][1]==20);
+		assertTrue(matrix[2][3]==32);
+		assertTrue(matrix[2][4]==IGraph.INF);
+		assertTrue(matrix[3][0]==IGraph.INF);
+		assertTrue(matrix[3][1]==IGraph.INF);
+		assertTrue(matrix[3][2]==IGraph.INF);
+		assertTrue(matrix[3][4]==IGraph.INF);
+		assertTrue(matrix[4][0]==7	);
+		assertTrue(matrix[4][1]==39);
+		assertTrue(matrix[4][2]==19);
+		assertTrue(matrix[4][3]==51);
+		
+		//Test 5
+		setUpStage20();
+		matrix= simpleG.floydwarshall();
+		assertDiagMatrix(matrix);
+		assertTrue(matrix[0][1]==IGraph.INF);
+		assertTrue(matrix[0][2]==IGraph.INF);
+		assertTrue(matrix[1][0]==IGraph.INF);
+		assertTrue(matrix[1][2]==IGraph.INF);
+		assertTrue(matrix[2][0]==IGraph.INF);
+		assertTrue(matrix[2][1]==IGraph.INF);
+	}
+	
+	public void assertDiagMatrix(double[][] matrix) {
+		for (int i=0; i<matrix.length; i++) {
+			assertTrue(matrix[i][i]==0);
+		}
 	}
 	
 	@Test
