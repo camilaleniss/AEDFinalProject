@@ -110,18 +110,18 @@ class TestAdjMatrixGraph {
 	}
 
 	public void setUpStage9() {
-		// EXAMPLE OF "Matem�tica discreta y sus aplicaciones"
+		//EXAMPLE OF "Matem�tica discreta y sus aplicaciones"
 		simpleSG = new AdjMatrixGraph<>(false, true);
 		simpleSG.addVertex("Boston");
 		simpleSG.addVertex("Nueva York");
 		simpleSG.addVertex("Chicago");
-		simpleSG.addVertex("Dallas");
+		simpleSG.addVertex("Dallas"); 
 		simpleSG.addVertex("Denver");
 		simpleSG.addVertex("San Francisco");
 		simpleSG.addVertex("Los Angeles");
-		// Edges
-		simpleSG.addEdge("San Francico", "Los Angeles", 400);
-		simpleSG.addEdge("San Franciso", "Denver", 1000);
+		//Edges
+		simpleSG.addEdge("San Francisco", "Los Angeles", 400);
+		simpleSG.addEdge("San Francisco", "Denver", 1000);
 		simpleSG.addEdge("San Francisco", "Chicago", 1500);
 		simpleSG.addEdge("Los Angeles", "Chicago", 1400);
 		simpleSG.addEdge("Los Angeles", "Dallas", 1100);
@@ -133,7 +133,7 @@ class TestAdjMatrixGraph {
 		simpleSG.addEdge("Boston", "Nueva York", 300);
 		simpleSG.addEdge("Boston", "Chicago", 900);
 	}
-
+	
 	public void setUpStage10() {
 		simpleSG = new AdjMatrixGraph<>(false, true);
 		simpleSG.addVertex("A");
@@ -445,6 +445,186 @@ class TestAdjMatrixGraph {
 	
 		//Test 5
 		assertTrue(directedG.areAdjacent(directedG.searchVertex(1), directedG.searchVertex(1)));
+	}
+	
+	@Test
+	public void testBfs() {
+		//Test 1
+		setUpStage7();
+		simpleSG.bfs(simpleSG.searchVertex("u"));
+		assertTrue(simpleSG.searchVertex("u").getPred()==null);
+		assertTrue(simpleSG.searchVertex("v").getPred().getValue().equals("r"));
+		assertTrue(simpleSG.searchVertex("r").getPred().getValue().equals("s"));
+		assertTrue(simpleSG.searchVertex("s").getPred().getValue().equals("w"));
+		assertTrue(simpleSG.searchVertex("w").getPred().getValue().equals("t"));
+		assertTrue(simpleSG.searchVertex("t").getPred().getValue().equals("u"));
+		assertTrue(simpleSG.searchVertex("x").getPred().getValue().equals("u"));
+		assertTrue(simpleSG.searchVertex("y").getPred().getValue().equals("u"));
+		
+		//Test 2
+		setUpStage8();
+		simpleG.bfs(simpleG.searchVertex(3));
+		assertTrue(simpleG.searchVertex(3).getPred()==null);
+		assertTrue(simpleG.searchVertex(2).getPred().getValue()==3);
+		assertTrue(simpleG.searchVertex(4).getPred().getValue()==3);
+		assertTrue(simpleG.searchVertex(1).getPred().getValue()==2);
+		assertTrue(simpleG.searchVertex(5).getPred().getValue()==2);
+		
+		//Test 3
+		setUpStage12();
+		directedG.bfs(directedG.searchVertex(3));
+		assertTrue(directedG.searchVertex(3).getPred()==null);
+		assertTrue(directedG.searchVertex(4).getPred()==null);
+		assertTrue(directedG.searchVertex(5).getPred()==null);
+		assertTrue(directedG.getVertices().size()==3);
+		
+	}
+	
+	@Test
+	public void testDfs() {
+		//Test 1
+		setUpStage14();
+		directedCG.dfs();
+		//Verify the predecessors
+		assertTrue(directedCG.searchVertex('x').getPred().getValue()=='y');
+		assertTrue(directedCG.searchVertex('y').getPred().getValue()=='v');
+		assertTrue(directedCG.searchVertex('v').getPred().getValue()=='u');
+		assertTrue(directedCG.searchVertex('u').getPred()==null);
+		assertTrue(directedCG.searchVertex('z').getPred().getValue()=='w');
+		assertTrue(directedCG.searchVertex('w').getPred()==null);
+		//Verify the TimeStamps
+		assertTrue(directedCG.searchVertex('u').getD()==1 && directedCG.searchVertex('u').getF()==8);
+		assertTrue(directedCG.searchVertex('v').getD()==2 && directedCG.searchVertex('v').getF()==7);
+		assertTrue(directedCG.searchVertex('w').getD()==9 && directedCG.searchVertex('w').getF()==12);
+		assertTrue(directedCG.searchVertex('x').getD()==4 && directedCG.searchVertex('x').getF()==5);
+		assertTrue(directedCG.searchVertex('y').getD()==3 && directedCG.searchVertex('y').getF()==6);
+		assertTrue(directedCG.searchVertex('z').getD()==10 && directedCG.searchVertex('z').getF()==11);
+		
+		//Test 2
+		setUpStage15();
+		simpleG.dfs();
+		for (int i=0; i<simpleG.getVertices().size(); i++)
+			assertTrue(simpleG.getVertices().get(i).getPred()==null);
+		
+		//Test 3
+		setUpStage8();
+		simpleG.dfs();
+		//Verify the predecessors
+		assertTrue(simpleG.searchVertex(1).getPred()==null);
+		assertTrue(simpleG.searchVertex(2).getPred().getValue()==1);
+		assertTrue(simpleG.searchVertex(3).getPred().getValue()==2);
+		assertTrue(simpleG.searchVertex(4).getPred().getValue()==3);
+		assertTrue(simpleG.searchVertex(5).getPred().getValue()==4);
+		//Verify the TimeStamps
+		assertTrue(simpleG.searchVertex(1).getD()==1 && simpleG.searchVertex(1).getF()==10);
+		assertTrue(simpleG.searchVertex(2).getD()==2 && simpleG.searchVertex(2).getF()==9);
+		assertTrue(simpleG.searchVertex(3).getD()==3 && simpleG.searchVertex(3).getF()==8);
+		assertTrue(simpleG.searchVertex(4).getD()==4 && simpleG.searchVertex(4).getF()==7);
+		assertTrue(simpleG.searchVertex(5).getD()==5 && simpleG.searchVertex(5).getF()==6);
+	}
+
+
+	@Test
+	public void testDijkstra() {
+		setUpStage9();
+		//Test 1
+		simpleSG.dijkstra(simpleSG.searchVertex("Dallas"));
+		assertTrue(simpleSG.searchVertex("Boston").getD()==1500);
+		
+		//Test 2
+
+		simpleSG.dijkstra(simpleSG.searchVertex("San Francisco"));
+		assertTrue(simpleSG.searchVertex("Dallas").getD()==1500);
+		
+		//Test 3
+		simpleSG.dijkstra(simpleSG.searchVertex("Chicago"));
+		assertTrue(simpleSG.searchVertex("Los Angeles").getD()==1400);
+		
+		//Test 4
+		setUpStage16();
+		simpleG.dijkstra(simpleG.searchVertex(1));	
+		assertTrue(simpleG.searchVertex(4).getD()==AdjListGraph.INF);
+	}
+	
+	@Test
+	public void testFloydWarshall() {
+		double [][] matrix;
+		
+		//Test 1
+		setUpStage17();
+		matrix=directedG.floydwarshall();
+		assertDiagMatrix(matrix);
+		assertTrue(matrix[0][1]==-1);
+		assertTrue(matrix[0][2]==-2);
+		assertTrue(matrix[0][3]==0);
+		assertTrue(matrix[1][0]==4);
+		assertTrue(matrix[1][2]==2);
+		assertTrue(matrix[1][3]==4);
+		assertTrue(matrix[2][0]==5);
+		assertTrue(matrix[2][1]==1);
+		assertTrue(matrix[2][3]==2);
+		assertTrue(matrix[3][0]==3);
+		assertTrue(matrix[3][1]==-1);
+		assertTrue(matrix[3][2]==1);
+		
+		//Test 2
+		setUpStage18();
+		matrix=directedG.floydwarshall();
+		assertDiagMatrix(matrix);
+		assertTrue(matrix[0][1]==5);
+		assertTrue(matrix[0][2]==6);
+		assertTrue(matrix[0][3]==8);
+		assertTrue(matrix[1][0]==IGraph.INF);
+		assertTrue(matrix[1][2]==1);
+		assertTrue(matrix[1][3]==3);
+		assertTrue(matrix[2][0]==IGraph.INF);
+		assertTrue(matrix[2][1]==5);
+		assertTrue(matrix[2][3]==2);
+		assertTrue(matrix[3][0]==IGraph.INF);
+		assertTrue(matrix[3][1]==3);
+		assertTrue(matrix[3][2]==4);
+		
+		//Test 4
+		setUpStage19();
+		matrix=directedCG.floydwarshall();
+		assertDiagMatrix(matrix);
+		assertTrue(matrix[0][1]==32);
+		assertTrue(matrix[0][2]==12);
+		assertTrue(matrix[0][3]==44);
+		assertTrue(matrix[0][4]==IGraph.INF);
+		assertTrue(matrix[1][0]==10);
+		assertTrue(matrix[1][2]==22);
+		assertTrue(matrix[1][3]==54);
+		assertTrue(matrix[1][4]==IGraph.INF);
+		assertTrue(matrix[2][0]==30);
+		assertTrue(matrix[2][1]==20);
+		assertTrue(matrix[2][3]==32);
+		assertTrue(matrix[2][4]==IGraph.INF);
+		assertTrue(matrix[3][0]==IGraph.INF);
+		assertTrue(matrix[3][1]==IGraph.INF);
+		assertTrue(matrix[3][2]==IGraph.INF);
+		assertTrue(matrix[3][4]==IGraph.INF);
+		assertTrue(matrix[4][0]==7	);
+		assertTrue(matrix[4][1]==39);
+		assertTrue(matrix[4][2]==19);
+		assertTrue(matrix[4][3]==51);
+		
+		//Test 5
+		setUpStage20();
+		matrix= simpleG.floydwarshall();
+		assertDiagMatrix(matrix);
+		assertTrue(matrix[0][1]==IGraph.INF);
+		assertTrue(matrix[0][2]==IGraph.INF);
+		assertTrue(matrix[1][0]==IGraph.INF);
+		assertTrue(matrix[1][2]==IGraph.INF);
+		assertTrue(matrix[2][0]==IGraph.INF);
+		assertTrue(matrix[2][1]==IGraph.INF);
+	}
+	
+	public void assertDiagMatrix(double[][] matrix) {
+		for (int i=0; i<matrix.length; i++) {
+			assertTrue(matrix[i][i]==0);
+		}
 	}
 
 }

@@ -119,8 +119,8 @@ public class TestAdjListGraph {
 		simpleSG.addVertex("San Francisco");
 		simpleSG.addVertex("Los Angeles");
 		//Edges
-		simpleSG.addEdge("San Francico", "Los Angeles", 400);
-		simpleSG.addEdge("San Franciso", "Denver", 1000);
+		simpleSG.addEdge("San Francisco", "Los Angeles", 400);
+		simpleSG.addEdge("San Francisco", "Denver", 1000);
 		simpleSG.addEdge("San Francisco", "Chicago", 1500);
 		simpleSG.addEdge("Los Angeles", "Chicago", 1400);
 		simpleSG.addEdge("Los Angeles", "Dallas", 1100);
@@ -516,11 +516,9 @@ public class TestAdjListGraph {
 		assertTrue(simpleSG.searchVertex("Boston").getD()==1500);
 		
 		//Test 2
-		/* FAILSSSSS
+
 		simpleSG.dijkstra(simpleSG.searchVertex("San Francisco"));
-		System.out.println(simpleSG.searchVertex("Dallas").getD());
 		assertTrue(simpleSG.searchVertex("Dallas").getD()==1500);
-		*/
 		
 		//Test 3
 		simpleSG.dijkstra(simpleSG.searchVertex("Chicago"));
