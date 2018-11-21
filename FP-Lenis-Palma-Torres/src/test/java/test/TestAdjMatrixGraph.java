@@ -209,6 +209,53 @@ class TestAdjMatrixGraph {
 		simpleG.addEdge(1, 3, 2);
 	}
 
+	public void setUpStage17() {
+		directedG= new AdjMatrixGraph<Integer>(true, true);
+		directedG.addVertex(1);
+		directedG.addVertex(2);
+		directedG.addVertex(3);
+		directedG.addVertex(4);
+		directedG.addEdge(1, 3, -2);
+		directedG.addEdge(3, 4, 2);
+		directedG.addEdge(4, 2, -1);
+		directedG.addEdge(2, 1, 4);
+		directedG.addEdge(2, 3, 3);
+	}
+	
+	public void setUpStage18() {
+		directedG= new AdjMatrixGraph<Integer>(true, true);
+		directedG.addVertex(1);
+		directedG.addVertex(2);
+		directedG.addVertex(3);
+		directedG.addVertex(4);
+		directedG.addEdge(1, 3, 9);
+		directedG.addEdge(3, 4, 2);
+		directedG.addEdge(4, 2, 3);
+		directedG.addEdge(1, 2, 5);
+		directedG.addEdge(2, 3, 1);
+	}
+	
+	public void setUpStage19() {
+		directedCG = new AdjMatrixGraph<>(true, true);
+		directedCG.addVertex('A');
+		directedCG.addVertex('B');
+		directedCG.addVertex('C');
+		directedCG.addVertex('D');
+		directedCG.addVertex('E');
+		directedCG.addEdge('A', 'D', 60);
+		directedCG.addEdge('A', 'C', 12);
+		directedCG.addEdge('B', 'A', 10);
+		directedCG.addEdge('C', 'B', 20);
+		directedCG.addEdge('C', 'D', 32);
+		directedCG.addEdge('E', 'A', 7);
+	}
+	
+	public void setUpStage20() {
+		simpleG= new AdjMatrixGraph<>(false, true);
+		simpleG.addVertex(1);
+		simpleG.addVertex(2);
+		simpleG.addVertex(3);
+	}
 	@Test
 	public void testAddVertex() {
 		// Test 1
@@ -279,6 +326,42 @@ class TestAdjMatrixGraph {
 		assertTrue(directedG.getWeightsMatrix()[directedG.getIndexOf(directedG.searchVertex(5))]
 				[directedG.getIndexOf(directedG.searchVertex(2))] == 3.0);
 		
+	}
+	
+	@Test
+	public void testRemoveVertex() {
+		//Test 1
+		setUpStage11();
+		directedG.removeVertex(2);
+		assertTrue(directedG.getVertices().size() == 3);
+		assertTrue(directedG.getAdjMatrix().size() == 3);
+		assertTrue(directedG.getWeightsMatrix().length == 3);
+		assertTrue(directedG.getAdjMatrix().get(directedG.getIndexOf(directedG.searchVertex(1))).size() == 3);
+		assertTrue(directedG.getNeighbors(directedG.searchVertex(1)).size() == 1);
+		assertTrue(directedG.getNeighbors(directedG.searchVertex(1)).get(0).getValue() == 5);
+		assertTrue(directedG.getNeighbors(directedG.searchVertex(5)).size() == 1);
+		assertTrue(directedG.getNeighbors(directedG.searchVertex(5)).get(0).getValue() == 7);
+
+		//Test 2
+		setUpStage11();
+		directedG.removeVertex(1);
+		assertTrue(directedG.searchVertex(1)==null);
+		
+		//Test 3
+		setUpStage11();
+		directedG.removeVertex(5);
+		assertTrue(directedG.getNeighbors(directedG.searchVertex(1)).size() == 1);
+		assertTrue(directedG.getNeighbors(directedG.searchVertex(1)).get(0).getValue() == 2);
+		assertTrue(directedG.getNeighbors(directedG.searchVertex(7)).size() == 0);
+		
+		//Test 4
+		setUpStage5();
+		simpleG.removeVertex(2);
+		assertTrue(simpleG.getNeighbors(simpleG.searchVertex(1)).size() == 1);
+		assertTrue(simpleG.getNeighbors(simpleG.searchVertex(1)).get(0).getValue() == 4);
+		assertTrue(simpleG.getNeighbors(simpleG.searchVertex(3)).size() == 1);
+		assertTrue(simpleG.getNeighbors(simpleG.searchVertex(3)).get(0).getValue() == 4);
+
 	}
 
 }

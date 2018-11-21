@@ -82,4 +82,9 @@ public class Vertex<T> implements Comparable<Vertex<T>>{
 		return Double.compare(d, vertex.d);
 	}
 	
+	@Override
+	public String toString() {
+		return value.toString();
+	}
+	
 }
