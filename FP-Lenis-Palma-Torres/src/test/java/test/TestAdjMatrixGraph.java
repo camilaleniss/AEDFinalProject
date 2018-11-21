@@ -363,5 +363,88 @@ class TestAdjMatrixGraph {
 		assertTrue(simpleG.getNeighbors(simpleG.searchVertex(3)).get(0).getValue() == 4);
 
 	}
+	
+	@Test
+	public void testRemoveEdge() {
+		//Test 1
+		setUpStage13();
+		directedG.removeEdge(1, 2);
+		assertTrue(directedG.getNeighbors(directedG.searchVertex(1)).size() == 2);
+		assertTrue(directedG.getNeighbors(directedG.searchVertex(1)).get(1).getValue() == 5);
+		assertTrue(directedG.getNeighbors(directedG.searchVertex(1)).get(0).getValue() == 1);
+		
+		//Test 2
+		setUpStage13();
+		directedG.removeEdge(5, 7);
+		assertTrue(directedG.areAdjacent(directedG.searchVertex(7), directedG.searchVertex(5)));
+		assertFalse(directedG.areAdjacent(directedG.searchVertex(5), directedG.searchVertex(7)));
+		
+		//Test 3
+		setUpStage5();
+		simpleG.removeEdge(1, 2);
+		assertFalse(simpleG.areAdjacent(simpleG.searchVertex(1), simpleG.searchVertex(2)));
+		assertFalse(simpleG.areAdjacent(simpleG.searchVertex(2), simpleG.searchVertex(1)));
+		
+		//Test 4
+		setUpStage5();
+		simpleG.removeEdge(3, 4);
+		assertFalse(simpleG.areAdjacent(simpleG.searchVertex(3), simpleG.searchVertex(4)));
+		assertFalse(simpleG.areAdjacent(simpleG.searchVertex(4), simpleG.searchVertex(3)));
+	}
+	
+	@Test
+	public void testSearchVertex() {
+		Vertex<Integer> ver;
+		
+		//Test 1
+		setUpStage5();
+		ver= simpleG.searchVertex(1);
+		assertTrue(ver.getValue()==1);
+		assertTrue(simpleG.getNeighbors(ver).size() == 2);
+		assertTrue(simpleG.areAdjacent(ver, simpleG.searchVertex(2)));
+		assertTrue(simpleG.areAdjacent(ver, simpleG.searchVertex(4)));
+		
+		//Test 2
+		ver= simpleG.searchVertex(5);
+		assertTrue(ver==null);
+		
+		//Test 3
+		setUpStage13();
+		ver = directedG.searchVertex(2);
+		assertTrue(ver.getValue()==2);
+		assertTrue(directedG.getNeighbors(ver).size() == 0);
+		
+		//Test 4
+		ver = directedG.searchVertex(1);
+		assertTrue(ver.getValue()==1);
+		assertTrue(directedG.getNeighbors(ver).size() == 3);
+		assertTrue(directedG.areAdjacent(ver, directedG.searchVertex(1)));
+		assertTrue(directedG.areAdjacent(ver, directedG.searchVertex(2)));
+		assertTrue(directedG.areAdjacent(ver, directedG.searchVertex(5)));
+		
+		//Test
+		ver= directedG.searchVertex(8);
+		assertTrue(ver==null);
+	}
+	
+	@Test
+	public void testAreAdjacent() {
+		//Test 1
+		setUpStage5();
+		assertTrue(simpleG.areAdjacent(simpleG.searchVertex(1), simpleG.searchVertex(2)));
+		
+		//Test 2
+		assertTrue(!simpleG.areAdjacent(simpleG.searchVertex(1), simpleG.searchVertex(3)));
+		
+		//Test 3
+		setUpStage13();
+		assertTrue(directedG.areAdjacent(directedG.searchVertex(1), directedG.searchVertex(2)));
+		
+		//Test 4
+		assertTrue(!directedG.areAdjacent(directedG.searchVertex(2), directedG.searchVertex(1)));
+	
+		//Test 5
+		assertTrue(directedG.areAdjacent(directedG.searchVertex(1), directedG.searchVertex(1)));
+	}
 
 }
