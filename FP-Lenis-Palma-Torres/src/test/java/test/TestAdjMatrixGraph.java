@@ -3,6 +3,8 @@ package test;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+
 import org.junit.jupiter.api.Test;
 import model.*;
 
@@ -259,7 +261,7 @@ class TestAdjMatrixGraph {
 	}
 	
 	public void setUpStage21() {
-		simpleCG= new AdjMatrixGraph<>(false, true);
+		simpleCG = new AdjMatrixGraph<>(false, true);
 		simpleCG.addVertex('A');
 		simpleCG.addVertex('B');
 		simpleCG.addVertex('C');
@@ -267,7 +269,7 @@ class TestAdjMatrixGraph {
 		simpleCG.addVertex('E');
 		simpleCG.addVertex('F');
 		simpleCG.addVertex('G');
-		
+
 		simpleCG.addEdge('A', 'B', 7);
 		simpleCG.addEdge('A', 'D', 5);
 		simpleCG.addEdge('B', 'C', 8);
@@ -280,9 +282,9 @@ class TestAdjMatrixGraph {
 		simpleCG.addEdge('E', 'G', 9);
 		simpleCG.addEdge('F', 'G', 11);
 	}
-	
+
 	public void setUpStage22() {
-		simpleCG= new AdjMatrixGraph<>(false, true);
+		simpleCG = new AdjMatrixGraph<>(false, true);
 		simpleCG.addVertex('a');
 		simpleCG.addVertex('b');
 		simpleCG.addVertex('c');
@@ -295,13 +297,13 @@ class TestAdjMatrixGraph {
 		simpleCG.addVertex('j');
 		simpleCG.addVertex('k');
 		simpleCG.addVertex('l');
-		
+
 		simpleCG.addEdge('a', 'b', 2);
 		simpleCG.addEdge('a', 'e', 3);
 		simpleCG.addEdge('b', 'c', 3);
-		simpleCG.addEdge('b', 'd', 1);
+		simpleCG.addEdge('b', 'f', 1);
 		simpleCG.addEdge('c', 'd', 1);
-		simpleCG.addEdge('c', 'g', 1);
+		simpleCG.addEdge('c', 'g', 2);
 		simpleCG.addEdge('d', 'h', 5);
 		simpleCG.addEdge('e', 'f', 4);
 		simpleCG.addEdge('e', 'i', 4);
@@ -312,12 +314,12 @@ class TestAdjMatrixGraph {
 		simpleCG.addEdge('h', 'l', 3);
 		simpleCG.addEdge('i', 'j', 3);
 		simpleCG.addEdge('j', 'k', 3);
-		simpleCG.addEdge('k', 'l', 1);		
+		simpleCG.addEdge('k', 'l', 1);
 	}
-	
+
 	public void setUpStage23() {
-		simpleG= new AdjMatrixGraph<>(false, true);
-		
+		simpleG = new AdjMatrixGraph<>(false, true);
+
 		simpleG.addVertex(1);
 		simpleG.addVertex(2);
 		simpleG.addVertex(3);
@@ -327,8 +329,8 @@ class TestAdjMatrixGraph {
 		simpleG.addVertex(7);
 		simpleG.addVertex(8);
 		simpleG.addVertex(9);
-		
-		simpleG.addEdge(1, 2, 4);	
+
+		simpleG.addEdge(1, 2, 4);
 		simpleG.addEdge(1, 8, 9);
 		simpleG.addEdge(2, 3, 9);
 		simpleG.addEdge(2, 8, 11);
@@ -339,7 +341,28 @@ class TestAdjMatrixGraph {
 		simpleG.addEdge(7, 8, 1);
 		simpleG.addEdge(7, 9, 6);
 		simpleG.addEdge(8, 7, 1);
-		
+
+	}
+	
+	public void setUpStage24() {
+		simpleG = new AdjMatrixGraph<>(false, true);
+
+		simpleG.addVertex(1);
+		simpleG.addVertex(2);
+		simpleG.addVertex(3);
+		simpleG.addVertex(4);
+		simpleG.addVertex(5);
+		simpleG.addVertex(6);
+
+		simpleG.addEdge(1, 2, 4);
+		simpleG.addEdge(1, 3, 4);
+		simpleG.addEdge(2, 3, 2);
+		simpleG.addEdge(2, 4, 3);
+		simpleG.addEdge(2, 5, 4);
+		simpleG.addEdge(2, 6, 2);
+		simpleG.addEdge(4, 5, 3);
+		simpleG.addEdge(5, 6, 3);
+
 	}
 	
 	@Test
@@ -629,7 +652,7 @@ class TestAdjMatrixGraph {
 		//Test 4
 		setUpStage16();
 		simpleG.dijkstra(simpleG.searchVertex(1));	
-		assertTrue(simpleG.searchVertex(4).getD()==AdjListGraph.INF);
+		assertTrue(simpleG.searchVertex(4).getD()==AdjMatrixGraph.INF);
 	}
 	
 	@Test
@@ -711,6 +734,237 @@ class TestAdjMatrixGraph {
 		for (int i=0; i<matrix.length; i++) {
 			assertTrue(matrix[i][i]==0);
 		}
+	}
+	
+	@Test
+	public void testPrim() {
+		// Test 1
+		setUpStage21();
+		simpleCG.prim(simpleCG.searchVertex('A'));
+		double totalW = 0;
+		for (int i = 0; i < simpleCG.getVertices().size(); i++) {
+			totalW += simpleCG.getVertices().get(i).getD();
+		}
+		assertTrue(totalW == 39);
+
+		// Test 2
+		setUpStage22();
+		simpleCG.prim(simpleCG.searchVertex('a'));
+		totalW = 0;
+		for (int i = 0; i < simpleCG.getVertices().size(); i++) {
+			totalW += simpleCG.getVertices().get(i).getD();
+		}
+		assertTrue(totalW == 24);
+
+		// Test 3
+		setUpStage24();
+		simpleG.prim(simpleG.searchVertex(1));
+		totalW = 0;
+		for (int i = 0; i < simpleG.getVertices().size(); i++) {
+			totalW += simpleG.getVertices().get(i).getD();
+		}
+		assertTrue(totalW == 14);
+	}
+
+	@Test
+	public void testKruskal() {
+		// Test 1
+		setUpStage21();
+		ArrayList<Edge<Character>> edges = simpleCG.kruskal();
+		double totalW = 0;
+		Edge<Character> e = edges.get(0);
+		assertTrue(e.getSource() == simpleCG.searchVertex('A'));
+		assertTrue(e.getDestination() == simpleCG.searchVertex('D'));
+		assertTrue(e.getWeight() == 5);
+		totalW+= e.getWeight();
+		
+		e = edges.get(1);
+		assertTrue(e.getSource() == simpleCG.searchVertex('C'));
+		assertTrue(e.getDestination() == simpleCG.searchVertex('E'));
+		assertTrue(e.getWeight() == 5);
+		totalW+= e.getWeight();
+		
+		e = edges.get(2);
+		assertTrue(e.getSource() == simpleCG.searchVertex('D'));
+		assertTrue(e.getDestination() == simpleCG.searchVertex('F'));
+		assertTrue(e.getWeight() == 6);
+		totalW+= e.getWeight();
+		
+		e = edges.get(3);
+		assertTrue(e.getSource() == simpleCG.searchVertex('A'));
+		assertTrue(e.getDestination() == simpleCG.searchVertex('B'));
+		assertTrue(e.getWeight() == 7);
+		totalW+= e.getWeight();
+		
+		e = edges.get(4);
+		assertTrue(e.getSource() == simpleCG.searchVertex('B'));
+		assertTrue(e.getDestination() == simpleCG.searchVertex('E'));
+		assertTrue(e.getWeight() == 7);
+		totalW+= e.getWeight();
+		
+		e = edges.get(5);
+		assertTrue(e.getSource() == simpleCG.searchVertex('E'));
+		assertTrue(e.getDestination() == simpleCG.searchVertex('G'));
+		assertTrue(e.getWeight() == 9);
+		totalW+= e.getWeight();
+		
+		assertTrue(totalW == 39);
+		
+		//Test2
+		setUpStage22();
+		edges = simpleCG.kruskal();
+		totalW = 0;
+		e = edges.get(0);
+		assertTrue(e.getSource() == simpleCG.searchVertex('b'));
+		assertTrue(e.getDestination() == simpleCG.searchVertex('f'));
+		assertTrue(e.getWeight() == 1);
+		totalW+= e.getWeight();
+		
+		e = edges.get(1);
+		assertTrue(e.getSource() == simpleCG.searchVertex('c'));
+		assertTrue(e.getDestination() == simpleCG.searchVertex('d'));
+		assertTrue(e.getWeight() == 1);
+		totalW+= e.getWeight();
+		
+		e = edges.get(2);
+		assertTrue(e.getSource() == simpleCG.searchVertex('k'));
+		assertTrue(e.getDestination() == simpleCG.searchVertex('l'));
+		assertTrue(e.getWeight() == 1);
+		totalW+= e.getWeight();
+		
+		e = edges.get(3);
+		assertTrue(e.getSource() == simpleCG.searchVertex('a'));
+		assertTrue(e.getDestination() == simpleCG.searchVertex('b'));
+		assertTrue(e.getWeight() == 2);
+		totalW+= e.getWeight();
+		
+		e = edges.get(4);
+		assertTrue(e.getSource() == simpleCG.searchVertex('c'));
+		assertTrue(e.getDestination() == simpleCG.searchVertex('g'));
+		assertTrue(e.getWeight() == 2);
+		totalW+= e.getWeight();
+		
+		e = edges.get(5);
+		assertTrue(e.getSource() == simpleCG.searchVertex('f'));
+		assertTrue(e.getDestination() == simpleCG.searchVertex('j'));
+		assertTrue(e.getWeight() == 2);
+		totalW+= e.getWeight();
+
+		e = edges.get(6);
+		assertTrue(e.getSource() == simpleCG.searchVertex('a'));
+		assertTrue(e.getDestination() == simpleCG.searchVertex('e'));
+		assertTrue(e.getWeight() == 3);
+		totalW+= e.getWeight();
+		
+		e = edges.get(7);
+		assertTrue(e.getSource() == simpleCG.searchVertex('b'));
+		assertTrue(e.getDestination() == simpleCG.searchVertex('c'));
+		assertTrue(e.getWeight() == 3);
+		totalW+= e.getWeight();
+
+		e = edges.get(8);
+		assertTrue(e.getSource() == simpleCG.searchVertex('g'));
+		assertTrue(e.getDestination() == simpleCG.searchVertex('h'));
+		assertTrue(e.getWeight() == 3);
+		totalW+= e.getWeight();
+
+		e = edges.get(9);
+		assertTrue(e.getSource() == simpleCG.searchVertex('h'));
+		assertTrue(e.getDestination() == simpleCG.searchVertex('l'));
+		assertTrue(e.getWeight() == 3);
+		totalW+= e.getWeight();
+
+		e = edges.get(10);
+		assertTrue(e.getSource() == simpleCG.searchVertex('i'));
+		assertTrue(e.getDestination() == simpleCG.searchVertex('j'));
+		assertTrue(e.getWeight() == 3);
+		totalW+= e.getWeight();
+		
+		assertTrue(totalW == 24);
+		
+		//Test 3
+		setUpStage24();
+		ArrayList<Edge<Integer>> edgesI = simpleG.kruskal();
+		totalW = 0;
+		Edge<Integer> eI = edgesI.get(0);
+		assertTrue(eI.getSource() == simpleG.searchVertex(2));
+		assertTrue(eI.getDestination() == simpleG.searchVertex(3));
+		assertTrue(eI.getWeight() == 2);
+		totalW+= eI.getWeight();
+		
+		eI = edgesI.get(1);
+		assertTrue(eI.getSource() == simpleG.searchVertex(2));
+		assertTrue(eI.getDestination() == simpleG.searchVertex(6));
+		assertTrue(eI.getWeight() == 2);
+		totalW+= eI.getWeight();
+		
+		eI = edgesI.get(2);
+		assertTrue(eI.getSource() == simpleG.searchVertex(2));
+		assertTrue(eI.getDestination() == simpleG.searchVertex(4));
+		assertTrue(eI.getWeight() == 3);
+		totalW+= eI.getWeight();
+		
+		eI = edgesI.get(3);
+		assertTrue(eI.getSource() == simpleG.searchVertex(4));
+		assertTrue(eI.getDestination() == simpleG.searchVertex(5));
+		assertTrue(eI.getWeight() == 3);
+		totalW+= eI.getWeight();
+		
+		eI = edgesI.get(4);
+		assertTrue(eI.getSource() == simpleG.searchVertex(1));
+		assertTrue(eI.getDestination() == simpleG.searchVertex(2));
+		assertTrue(eI.getWeight() == 4);
+		totalW+= eI.getWeight();
+		
+		assertTrue(totalW == 14);
+		
+		//Test 4
+				setUpStage23();
+				edgesI = simpleG.kruskal();
+				totalW = 0;
+				eI = edgesI.get(0);
+				assertTrue(eI.getSource() == simpleG.searchVertex(7));
+				assertTrue(eI.getDestination() == simpleG.searchVertex(8));
+				assertTrue(eI.getWeight() == 1);
+				totalW+= eI.getWeight();
+				
+				eI = edgesI.get(1);
+				assertTrue(eI.getSource() == simpleG.searchVertex(3));
+				assertTrue(eI.getDestination() == simpleG.searchVertex(9));
+				assertTrue(eI.getWeight() == 2);
+				totalW+= eI.getWeight();
+				
+				eI = edgesI.get(2);
+				assertTrue(eI.getSource() == simpleG.searchVertex(1));
+				assertTrue(eI.getDestination() == simpleG.searchVertex(2));
+				assertTrue(eI.getWeight() == 4);
+				totalW+= eI.getWeight();
+				
+				eI = edgesI.get(3);
+				assertTrue(eI.getSource() == simpleG.searchVertex(7));
+				assertTrue(eI.getDestination() == simpleG.searchVertex(9));
+				assertTrue(eI.getWeight() == 6);
+				totalW+= eI.getWeight();
+				
+				eI = edgesI.get(4);
+				assertTrue(eI.getSource() == simpleG.searchVertex(1));
+				assertTrue(eI.getDestination() == simpleG.searchVertex(8));
+				assertTrue(eI.getWeight() == 9);
+				totalW+= eI.getWeight();
+				
+				eI = edgesI.get(5);
+				assertTrue(eI.getSource() == simpleG.searchVertex(4));
+				assertTrue(eI.getDestination() == simpleG.searchVertex(5));
+				assertTrue(eI.getWeight() == 10);
+				totalW+= eI.getWeight();
+				
+				eI = edgesI.get(6);
+				assertTrue(eI.getSource() == simpleG.searchVertex(5));
+				assertTrue(eI.getDestination() == simpleG.searchVertex(6));
+				assertTrue(eI.getWeight() == 11);
+				totalW+= eI.getWeight();
+				
+				assertTrue(totalW == 43);
 	}
 
 }
