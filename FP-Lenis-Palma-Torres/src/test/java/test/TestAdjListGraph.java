@@ -255,6 +255,7 @@ public class TestAdjListGraph {
 		simpleG.addVertex(2);
 		simpleG.addVertex(3);
 	}
+	
 
 	//Basic operation tests
 	

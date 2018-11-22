@@ -398,7 +398,8 @@ public class AdjListGraph<T> implements IGraph<T> {
 
 	public ArrayList<Edge<T>> kruskal() { // Adapted from
 											// www.geeksforgeeks.org/kruskals-minimum-spanning-tree-algorithm-greedy-algo-2/
-		ArrayList<Edge<T>> result = new ArrayList<>(); // Tnis will store the resultant MST
+		
+		ArrayList<Edge<T>> result = new ArrayList<>(); // This will store the resultant MST
 		int e = 0; // An index variable, used for result[]
 		int i = 0; // An index variable, used for sorted edges
 
