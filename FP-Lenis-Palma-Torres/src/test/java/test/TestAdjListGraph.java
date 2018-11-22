@@ -299,7 +299,7 @@ public class TestAdjListGraph {
 		simpleCG.addEdge('a', 'b', 2);
 		simpleCG.addEdge('a', 'e', 3);
 		simpleCG.addEdge('b', 'c', 3);
-		simpleCG.addEdge('b', 'd', 1);
+		simpleCG.addEdge('b', 'f', 1);
 		simpleCG.addEdge('c', 'd', 1);
 		simpleCG.addEdge('c', 'g', 1);
 		simpleCG.addEdge('d', 'h', 5);
