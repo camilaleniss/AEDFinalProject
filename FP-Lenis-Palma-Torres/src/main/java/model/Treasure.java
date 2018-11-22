@@ -1,6 +1,7 @@
 package model;
 
 public class Treasure {
+	
 	private String name;
 	private double value;
 	

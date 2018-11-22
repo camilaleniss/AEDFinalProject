@@ -256,6 +256,7 @@ public class TestAdjListGraph {
 		simpleG.addVertex(2);
 		simpleG.addVertex(3);
 	}
+	
 
 	public void setUpStage21() {
 		simpleCG = new AdjListGraph<>(false, true);

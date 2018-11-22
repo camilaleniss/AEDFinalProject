@@ -15,5 +15,31 @@ public class Mansion {
 			graph=new AdjListGraph(d,w);
 		}
 	}
-	public 
+//	public Room search() {
+//		
+//	}
+	
+	public void addRoom() {
+		
+	}
+	public void deleteCorridor() {
+		
+	}
+	public void createCorridor() {
+		
+	}
+	public void deleteRoom() {
+		
+	}
+	
+	public void getTreasures() {
+		
+	}
+	
+	public void announceClosure() {
+		
+	}
+	public  void shortestWayOut() {
+		
+	}
 }
