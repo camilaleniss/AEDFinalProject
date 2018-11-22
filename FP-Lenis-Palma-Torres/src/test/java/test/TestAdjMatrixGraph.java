@@ -11,6 +11,7 @@ class TestAdjMatrixGraph {
 	private AdjMatrixGraph<Integer> directedG;
 	private AdjMatrixGraph<Integer> simpleG;
 	private AdjMatrixGraph<String> simpleSG;
+	private AdjMatrixGraph<Character> simpleCG;
 	private AdjMatrixGraph<Character> directedCG;
 
 	public TestAdjMatrixGraph() {
@@ -256,6 +257,91 @@ class TestAdjMatrixGraph {
 		simpleG.addVertex(2);
 		simpleG.addVertex(3);
 	}
+	
+	public void setUpStage21() {
+		simpleCG= new AdjMatrixGraph<>(false, true);
+		simpleCG.addVertex('A');
+		simpleCG.addVertex('B');
+		simpleCG.addVertex('C');
+		simpleCG.addVertex('D');
+		simpleCG.addVertex('E');
+		simpleCG.addVertex('F');
+		simpleCG.addVertex('G');
+		
+		simpleCG.addEdge('A', 'B', 7);
+		simpleCG.addEdge('A', 'D', 5);
+		simpleCG.addEdge('B', 'C', 8);
+		simpleCG.addEdge('B', 'D', 9);
+		simpleCG.addEdge('B', 'E', 7);
+		simpleCG.addEdge('C', 'E', 5);
+		simpleCG.addEdge('D', 'E', 15);
+		simpleCG.addEdge('D', 'F', 6);
+		simpleCG.addEdge('E', 'F', 8);
+		simpleCG.addEdge('E', 'G', 9);
+		simpleCG.addEdge('F', 'G', 11);
+	}
+	
+	public void setUpStage22() {
+		simpleCG= new AdjMatrixGraph<>(false, true);
+		simpleCG.addVertex('a');
+		simpleCG.addVertex('b');
+		simpleCG.addVertex('c');
+		simpleCG.addVertex('d');
+		simpleCG.addVertex('e');
+		simpleCG.addVertex('f');
+		simpleCG.addVertex('g');
+		simpleCG.addVertex('h');
+		simpleCG.addVertex('i');
+		simpleCG.addVertex('j');
+		simpleCG.addVertex('k');
+		simpleCG.addVertex('l');
+		
+		simpleCG.addEdge('a', 'b', 2);
+		simpleCG.addEdge('a', 'e', 3);
+		simpleCG.addEdge('b', 'c', 3);
+		simpleCG.addEdge('b', 'd', 1);
+		simpleCG.addEdge('c', 'd', 1);
+		simpleCG.addEdge('c', 'g', 1);
+		simpleCG.addEdge('d', 'h', 5);
+		simpleCG.addEdge('e', 'f', 4);
+		simpleCG.addEdge('e', 'i', 4);
+		simpleCG.addEdge('f', 'g', 3);
+		simpleCG.addEdge('f', 'j', 2);
+		simpleCG.addEdge('g', 'h', 3);
+		simpleCG.addEdge('g', 'k', 4);
+		simpleCG.addEdge('h', 'l', 3);
+		simpleCG.addEdge('i', 'j', 3);
+		simpleCG.addEdge('j', 'k', 3);
+		simpleCG.addEdge('k', 'l', 1);		
+	}
+	
+	public void setUpStage23() {
+		simpleG= new AdjMatrixGraph<>(false, true);
+		
+		simpleG.addVertex(1);
+		simpleG.addVertex(2);
+		simpleG.addVertex(3);
+		simpleG.addVertex(4);
+		simpleG.addVertex(5);
+		simpleG.addVertex(6);
+		simpleG.addVertex(7);
+		simpleG.addVertex(8);
+		simpleG.addVertex(9);
+		
+		simpleG.addEdge(1, 2, 4);	
+		simpleG.addEdge(1, 8, 9);
+		simpleG.addEdge(2, 3, 9);
+		simpleG.addEdge(2, 8, 11);
+		simpleG.addEdge(3, 9, 2);
+		simpleG.addEdge(4, 5, 10);
+		simpleG.addEdge(4, 6, 15);
+		simpleG.addEdge(5, 6, 11);
+		simpleG.addEdge(7, 8, 1);
+		simpleG.addEdge(7, 9, 6);
+		simpleG.addEdge(8, 7, 1);
+		
+	}
+	
 	@Test
 	public void testAddVertex() {
 		// Test 1
