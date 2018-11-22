@@ -31,13 +31,15 @@ public class Mansion {
 	public void deleteRoom() {
 		
 	}
-	public getTreasures() {
+	
+	public void getTreasures() {
 		
 	}
+	
 	public void announceClosure() {
 		
 	}
-	public  shortestWayOut() {
+	public  void shortestWayOut() {
 		
 	}
 }
