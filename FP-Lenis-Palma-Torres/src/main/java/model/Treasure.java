@@ -21,4 +21,10 @@ public class Treasure {
 	public void setValue(double v) {
 		value=v;
 	}
+
+	@Override
+	public String toString() {
+		return name+" / "+ " $"+value+" from: ";
+	}
+
 }

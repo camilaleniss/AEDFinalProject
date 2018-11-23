@@ -40,7 +40,10 @@ public class Mansion {
 	 * @return The minimum time to an exit
 	 */
 	public  double shortestWayOut(String room) {
+		
 		Vertex<Room> rr= search(room);
+		if (rr==null) throw new DidntFindException("Didn´t find the room");
+		
 		int indexrr=0;
 		double time=0, mintime=IGraph.INF;
 		double[][] times;
@@ -78,18 +81,49 @@ public class Mansion {
 		return null;
 	}
 	
+	public Room searchRoom(String room) {
+		for (int i=0; i<adjList.getNumberOfVertices(); i++) {
+			if (adjList.getVertices().get(i).getValue().getName().equals(room))
+				return adjList.getVertices().get(i).getValue();
+		}
+		return null;
+	}
 	
-	public void addRoom() {
+	
+	public void addRoom(String name, boolean isExit) {
+		adjList.addVertex(new Room(name, isExit));
+		adjMatrix.addVertex(new Room(name, isExit));
+	}
+	
+	public void deleteCorridor(String from, String to) {
+		Room fromvertex = searchRoom(from);
+		Room tovertex = searchRoom(to);
+		
+		if (fromvertex==null || tovertex==null) 
+			throw new DidntFindException("The room had not been find");
+		
+		adjList.removeEdge(fromvertex, tovertex);
+		adjMatrix.removeEdge(fromvertex, tovertex);
+	}
+	
+	public void createCorridor(String from, String to, double time) {
+		Room fromvertex = searchRoom(from);
+		Room tovertex = searchRoom(to);
+		
+		if (fromvertex==null || tovertex==null) 
+			throw new DidntFindException("The room had not been find");
+		
+		adjList.addEdge(fromvertex, tovertex, time);
+		adjMatrix.addEdge(fromvertex, tovertex, time);
 		
 	}
-	public void deleteCorridor() {
-		
-	}
-	public void createCorridor() {
-		
-	}
-	public void deleteRoom() {
-		
+	
+	public void deleteRoom(String room) {
+		Room roomdelete = searchRoom(room);
+		if(roomdelete==null)
+			throw new DidntFindException("The room had not been find");
+		adjList.removeVertex(roomdelete);
+		adjMatrix.removeVertex(roomdelete);
 	}
 	
 	public void getTreasures() {
