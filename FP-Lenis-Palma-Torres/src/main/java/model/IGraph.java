@@ -49,4 +49,6 @@ public interface IGraph<T> {
 	
 	public ArrayList<Edge<T>> kruskal();
 	
+	public Vertex<T> searchVertex(T value);
+	
 }

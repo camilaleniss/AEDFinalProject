@@ -94,10 +94,10 @@ public class AdjMatrixGraph<T> implements IGraph<T> {
 		if (from != null && to != null) {
 
 			adjMatrix.get(getIndexOf(from)).set(getIndexOf(to), 1);
-			weightsMatrix.get(getIndexOf(from)).set(getIndexOf(to), w);
+			weightsMatrix.get(getIndexOf(from)).set(getIndexOf(to), Math.min(w, weightsMatrix.get(getIndexOf(from)).get(getIndexOf(to))));
 			if (!isDirected()) {
 				adjMatrix.get(getIndexOf(to)).set(getIndexOf(from), 1);
-				weightsMatrix.get(getIndexOf(to)).set(getIndexOf(from), w);
+				weightsMatrix.get(getIndexOf(to)).set(getIndexOf(from), Math.min(w, weightsMatrix.get(getIndexOf(to)).get(getIndexOf(from))));
 			}
 			numberOfEdges++;
 		}
