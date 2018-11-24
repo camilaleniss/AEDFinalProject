@@ -51,4 +51,6 @@ public interface IGraph<T> {
 	
 	public Vertex<T> searchVertex(T value);
 	
+	public List<Edge<T>> getEdges();
+	
 }
