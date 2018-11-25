@@ -2,7 +2,7 @@ package model;
 
 import java.util.ArrayList;
 
-public class Room {
+public class Room implements Comparable<Room>{
 	
 	private String name;
 	
@@ -41,5 +41,14 @@ public class Room {
 		treasures.add(treasure);
 	}
 	
+	@Override
+	public String toString() {
+		return name + (isExit ? " - exit" : "");
+	}
+
+	@Override
+	public int compareTo(Room arg0) {
+		return name.compareTo(arg0.name);
+	}
 	
 }

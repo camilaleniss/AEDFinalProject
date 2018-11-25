@@ -140,6 +140,7 @@ public class Mansion {
 			throw new RoomAlreadyExistsException();
 		}
 		Room r = new Room(name, isExit);
+		mapRooms.put(name, r);
 		graph.addVertex(r);
 		if (isExit)
 			exits.add(graph.searchVertex(r));
@@ -177,6 +178,8 @@ public class Mansion {
 	}
 
 	public void deleteRoom(String room) throws NotFoundException {
+		if(room.equals("Main exit"))
+			throw new NotFoundException("You cannot delete the main exit!");
 		Room roomdelete = searchRoom(room);
 		if (roomdelete == null)
 			throw new NotFoundException("The room does not exist");
@@ -215,7 +218,13 @@ public class Mansion {
 		return nondir;
 	}
 
-	public void initMansion() {
+	public void initMansion(){
+		try {
+			addRoom("Main exit", true);
+		} catch (RoomAlreadyExistsException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
@@ -235,6 +244,15 @@ public class Mansion {
 		}
 
 		return path;
+	}
+	
+	public List<Room> getRooms(){
+		Iterator<Room> roomsI = mapRooms.values().iterator();
+		ArrayList<Room> rooms = new ArrayList<>();
+		while(roomsI.hasNext()) {
+			rooms.add(roomsI.next());
+		}
+		return rooms;
 	}
 
 }

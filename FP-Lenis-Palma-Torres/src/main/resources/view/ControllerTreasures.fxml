@@ -9,8 +9,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ControllerTreasures">
    <top>
       <Label prefHeight="35.0" prefWidth="237.0" text="TREASURES REGISTER" BorderPane.alignment="CENTER">
          <font>
@@ -19,7 +18,7 @@
       </Label>
    </top>
    <center>
-      <JFXListView BorderPane.alignment="CENTER" />
+      <JFXListView fx:id="listTreasures" BorderPane.alignment="CENTER" />
    </center>
    <bottom>
       <GridPane alignment="TOP_CENTER" BorderPane.alignment="CENTER">
@@ -31,8 +30,8 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <JFXButton text="Add Treasure" />
-            <JFXButton text="Back" GridPane.columnIndex="1" />
+            <JFXButton fx:id="btnAdd" onAction="#add" text="Add Treasure" />
+            <JFXButton fx:id="btnBack" onAction="#back" text="Back" GridPane.columnIndex="1" />
          </children>
       </GridPane>
    </bottom>
