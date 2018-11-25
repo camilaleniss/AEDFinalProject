@@ -152,7 +152,7 @@ public class ControllerModify {
 			} else {
 				try {
 					mansion.addRoom(txtName.getText(), chkExit.isSelected());
-					init(mansion, mansion.searchRoom(txtName.getText()), prevRoom);
+					init(mansion, mansion.searchRoom(txtName.getText()), mansion.searchRoom(txtName.getText()));
 					Alert alert = new Alert(AlertType.INFORMATION);
 					alert.setTitle("Success");
 					alert.setHeaderText(null);
