@@ -107,7 +107,12 @@ public class MainView {
 
     @FXML
     void message(ActionEvent event) {
-    	
+    	double time = mansion.announceClosure();
+    	Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Shortest way out");
+		alert.setHeaderText("The message was successfully sent!");
+		alert.setContentText("And took "+time+" minutes");
+		alert.showAndWait();
     }
 
     @FXML
