@@ -14,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceDialog;
 import model.IGraph;
 import model.Mansion;
 import model.NotFoundException;
@@ -106,7 +107,7 @@ public class MainView {
 
     @FXML
     void message(ActionEvent event) {
-
+    	
     }
 
     @FXML
@@ -116,7 +117,51 @@ public class MainView {
 
     @FXML
     void shortestPath(ActionEvent event) {
+    	String name = listRooms.getSelectionModel().getSelectedItem().getName();
+    	try {
+    		
+    		List<Room> choices = mansion.getRooms();
 
+    		ChoiceDialog<Room> dialog = new ChoiceDialog<Room>(choices.get(0), choices);
+    		dialog.setTitle("Select the ending room");
+    		dialog.setHeaderText(null);
+    		dialog.setContentText("Choose the destination");
+
+    		Optional<Room> result = dialog.showAndWait();
+    		if (result.isPresent()){
+    		    
+    			String dest = result.get().getName();
+    		    
+    		    List<Room> path = mansion.shortestPath(name, dest);
+    			double length = mansion.getPathLength(path);
+    			
+    			String msg = "";
+    			
+    			if(length < IGraph.INF) {
+    				msg = "The path that goes through the smallest number of rooms takes "+(int)length+" rooms and is: \n"+path.get(0);
+    				for (int i = 1; i < path.size(); i++) {
+    					msg += " - "+path.get(i);
+    				}
+    			} else {
+    				msg = "There is no such path";
+    			}
+    			
+    			Alert alert = new Alert(AlertType.INFORMATION);
+    			alert.setTitle("Shortest path");
+    			alert.setHeaderText(null);
+    			alert.setContentText(msg);
+
+    			alert.showAndWait();
+    		}    		
+			
+		} catch (NotFoundException e) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setHeaderText(null);
+			alert.setContentText(e.getMessage());
+
+			alert.showAndWait();
+		}
     }
 
     @FXML

@@ -252,6 +252,7 @@ public class Mansion {
 		while(roomsI.hasNext()) {
 			rooms.add(roomsI.next());
 		}
+		Collections.sort(rooms);
 		return rooms;
 	}
 
