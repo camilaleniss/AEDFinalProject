@@ -106,20 +106,44 @@ public interface IGraph<T> {
 	 * @param s The vertex where the path will starts. s!=null
 	 */
 	public void bfs(Vertex<T> s);
-	
+	/**
+	 * This method implements the dfs path.
+	 */
 	public void dfs();
-	
+	/**
+	 * This method implements the Dijkstra shortest path method from Vertex x to the rest.
+	 * @param x The vertex where the path begins. x!=null.
+	 */
 	public void dijkstra(Vertex<T> x);
-	
+	/**
+	 * This method implements the Floyd-Warshall Shortest Path of all node to all nodes.
+	 * @return the matrix of shortest paths for each vertex.
+	 */
 	public double[][] floydwarshall();
-	
+	/**
+	 * This method implements the Prim methods for the shortest weight tree.
+	 * @param s The vertex where the path begins. s!=null.
+	 */
 	public void prim(Vertex<T> s);
-	
+	/**
+	 * This method finds one path the connects all vertices with the least weight path.
+	 * @return Returns an ArrayList containing the edges needed to complete the shortest weight path.
+	 */
 	public ArrayList<Edge<T>> kruskal();
-	
+	/**
+	 * This method searches a vertex based on the value it receives.
+	 * @param value Is the T value that the method receives. value!=null.
+	 * @return Returns a Vertex>T> that contains the value T.
+	 */
 	public Vertex<T> searchVertex(T value);
-	
+	/**
+	 * This method collects all of the edges present on the graph.
+	 * @return Returns a list with the Edges.
+	 */
 	public List<Edge<T>> getEdges();
-	
+	/**
+	 * This method collects all of the T values in the graph
+	 * @return This method returns a List with all the T values present in the graph.
+	 */
 	public List<T> getContents();
 }
