@@ -183,6 +183,7 @@ public class Mansion {
 		Room roomdelete = searchRoom(room);
 		if (roomdelete == null)
 			throw new NotFoundException("The room does not exist");
+		mapRooms.remove(room);
 		graph.removeVertex(roomdelete);
 	}
 
@@ -255,5 +256,30 @@ public class Mansion {
 		Collections.sort(rooms);
 		return rooms;
 	}
+	
+	public List<Room> getNeighbors(Room r){
+		ArrayList<Room> neigh = new ArrayList<>();
+		Vertex<Room> v = graph.searchVertex(r);
+		if(v != null) {
+			List<Vertex<Room>> n = graph.getNeighbors(v);
+			for (Vertex<Room> u : n) {
+				neigh.add(u.getValue());
+			}
+		}
+		return neigh;
+	}
+	
+//	public List<Room> getFromNeighbors(Room r){
+//		ArrayList<Room> neigh = new ArrayList<>();
+//		Vertex<Room> v = graph.searchVertex(r);
+//		if(v != null) {
+//			List<Vertex<Room>> vertices = graph.getVertices();
+//			for(Vertex<Room> u : vertices) {
+//				if(graph.areAdjacent(u, v))
+//					neigh.add(u.getValue());
+//			}
+//		}
+//		return neigh;
+//	}
 
 }

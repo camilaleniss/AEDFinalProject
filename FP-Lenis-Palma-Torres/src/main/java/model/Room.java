@@ -32,6 +32,10 @@ public class Room implements Comparable<Room>{
 		return isExit;
 	}
 	
+	public void setExit(boolean exit) {
+		this.isExit = exit;
+	}
+	
 	public void addValuable(String n, double v) {
 		Treasure newTreasure= new Treasure(n,v);
 		addValuable(newTreasure);
@@ -43,7 +47,7 @@ public class Room implements Comparable<Room>{
 	
 	@Override
 	public String toString() {
-		return name + (isExit ? " - exit" : "");
+		return name + (isExit ? " (exit)" : "");
 	}
 
 	@Override

@@ -67,7 +67,7 @@
               </rowConstraints>
                <children>
                   <Label text="Nombre de la habitación" />
-                  <JFXTextField fx:id="txtRoomName" prefHeight="25.0" prefWidth="213.0" GridPane.columnIndex="1" />
+                  <JFXTextField fx:id="txtRoomName" editable="false" prefHeight="25.0" prefWidth="213.0" GridPane.columnIndex="1" />
                </children>
             </GridPane>
          </top>
@@ -84,7 +84,6 @@
                     </rowConstraints>
                      <children>
                         <Label alignment="CENTER" contentDisplay="CENTER" text="Habitaciones por ir" />
-                        <Label prefHeight="17.0" prefWidth="207.0" text="Habitaciones de las cuales se llega a" GridPane.columnIndex="1" />
                      </children>
                   </GridPane>
                </top>
@@ -98,8 +97,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <JFXListView fx:id="listRoomsTo" />
-                        <JFXListView fx:id="listRoomsFrom" GridPane.columnIndex="1" />
+                        <JFXListView fx:id="listToRooms" />
                      </children>
                   </GridPane>
                </center>

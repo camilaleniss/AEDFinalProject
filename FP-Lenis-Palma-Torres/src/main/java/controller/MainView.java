@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -11,8 +12,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.stage.Stage;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
 import model.IGraph;
@@ -117,7 +122,20 @@ public class MainView {
 
     @FXML
     void seeRoom(ActionEvent event) {
-
+    	try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("/view/ControllerHabitacion.fxml"));
+			Parent root = loader.load();
+			Scene scene = new Scene(root);
+			Stage stage = (Stage) btnRoom.getScene().getWindow();
+			stage.setScene(scene);
+			ControllerRoom contr = loader.getController();
+			contr.init(mansion, listRooms.getSelectionModel().getSelectedItem());
+			stage.show();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
     @FXML
@@ -171,7 +189,20 @@ public class MainView {
 
     @FXML
     void tresures(ActionEvent event) {
-
+    	try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(getClass().getResource("/view/ControllerTreasures.fxml"));
+			Parent root = loader.load();
+			Scene scene = new Scene(root);
+			Stage stage = (Stage) btnRoom.getScene().getWindow();
+			stage.setScene(scene);
+			ControllerTreasures contr = loader.getController();
+			contr.init(mansion);
+			stage.show();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
 }

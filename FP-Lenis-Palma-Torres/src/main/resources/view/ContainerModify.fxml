@@ -17,6 +17,7 @@
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -33,6 +34,7 @@
             <JFXButton fx:id="btnDeleteCorridor" onAction="#deleteCorridor" text="Eliminar pasillo hasta" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <JFXCheckBox fx:id="chkExit" text="Es una salida" GridPane.rowIndex="1" />
             <JFXButton fx:id="btnUpdate" onAction="#update" text="Actualizar" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <JFXButton fx:id="btnReturn" onAction="#returnToMansion" text="Return" GridPane.columnIndex="2" GridPane.rowIndex="3" />
          </children>
       </GridPane>
    </center>
