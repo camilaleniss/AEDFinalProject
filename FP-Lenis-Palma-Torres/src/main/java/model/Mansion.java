@@ -8,7 +8,7 @@ public class Mansion {
 //	private AdjMatrixGraph<Room> adjMatrix;
 	private IGraph<Room> graph;
 
-	private ArrayList<Vertex<Room>> exits;
+//	private ArrayList<Vertex<Room>> exits;
 	private HashMap<String, Room> mapRooms;
 
 	private boolean isList;
@@ -27,7 +27,7 @@ public class Mansion {
 //		adjMatrix = new AdjMatrixGraph<>(true, true);
 		graph = isList ? new AdjListGraph<>(true, true) : new AdjMatrixGraph<>(true, true);
 		mapRooms = new HashMap<>();
-		exits = new ArrayList<>();
+//		exits = new ArrayList<>();
 		this.isList = isList;
 		initMansion();
 	}
@@ -58,6 +58,13 @@ public class Mansion {
 			throw new NotFoundException("The room does not exist");
 
 		graph.dijkstra(rr);
+		
+		List<Vertex<Room>> exits = new ArrayList<>();
+		List<Room> rooms = getRooms();
+		for(Room r : rooms) {
+			if(r.isExit())
+				exits.add(graph.searchVertex(r));
+		}
 
 		Vertex<Room> minExit = exits.get(0);
 
@@ -142,8 +149,8 @@ public class Mansion {
 		Room r = new Room(name, isExit);
 		mapRooms.put(name, r);
 		graph.addVertex(r);
-		if (isExit)
-			exits.add(graph.searchVertex(r));
+//		if (isExit)
+//			exits.add(graph.searchVertex(r));
 //		adjList.addVertex(new Room(name, isExit));
 //		adjMatrix.addVertex(new Room(name, isExit));
 	}
@@ -171,7 +178,7 @@ public class Mansion {
 		if (graph.areAdjacent(search(from), search(to))) {
 			throw new CorridorAlreadyExistsException();
 		}
-
+		graph.addEdge(fromRoom, toRoom, time);
 //		adjList.addEdge(fromvertex, tovertex, time);
 //		adjMatrix.addEdge(fromvertex, tovertex, time);
 
