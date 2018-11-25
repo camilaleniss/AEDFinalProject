@@ -194,8 +194,17 @@ public class Mansion {
 		graph.removeVertex(roomdelete);
 	}
 
-	public void getTreasures() {
-
+	public ArrayList<String> getTreasures() {
+		List<Room> rooms= graph.getContents();
+		ArrayList<String> treasures= new ArrayList();
+		ArrayList<Treasure> valuables=new ArrayList();
+		for(int i=0;i<rooms.size();i++) {
+			valuables=rooms.get(i).getTreasures();
+			for(int j=0;j<valuables.size();i++) {
+				treasures.add(valuables.get(i).toString());
+			}
+		}
+		return treasures;
 	}
 
 	public double announceClosure() {

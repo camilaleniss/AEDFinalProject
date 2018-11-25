@@ -53,4 +53,5 @@ public interface IGraph<T> {
 	
 	public List<Edge<T>> getEdges();
 	
+	public List<T> getContents();
 }
