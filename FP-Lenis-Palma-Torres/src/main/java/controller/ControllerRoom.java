@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Optional;
 
 import com.jfoenix.controls.JFXButton;
@@ -145,6 +146,7 @@ public class ControllerRoom {
 		this.txtRoomName.setText(room.getName());
 
 		ArrayList<Room> toRooms = (ArrayList<Room>) mansion.getNeighbors(room);
+		Collections.sort(toRooms);
 
 		ObservableList<Room> list = FXCollections.observableArrayList(toRooms);
 		listToRooms.setItems(list);

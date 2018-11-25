@@ -10,6 +10,7 @@ public class Mansion {
 
 //	private ArrayList<Vertex<Room>> exits;
 	private HashMap<String, Room> mapRooms;
+	private List<Treasure> museum;
 
 	private boolean isList;
 
@@ -27,6 +28,7 @@ public class Mansion {
 //		adjMatrix = new AdjMatrixGraph<>(true, true);
 		graph = isList ? new AdjListGraph<>(true, true) : new AdjMatrixGraph<>(true, true);
 		mapRooms = new HashMap<>();
+		museum = new ArrayList<>();
 //		exits = new ArrayList<>();
 		this.isList = isList;
 		initMansion();
@@ -58,11 +60,11 @@ public class Mansion {
 			throw new NotFoundException("The room does not exist");
 
 		graph.dijkstra(rr);
-		
+
 		List<Vertex<Room>> exits = new ArrayList<>();
 		List<Room> rooms = getRooms();
-		for(Room r : rooms) {
-			if(r.isExit())
+		for (Room r : rooms) {
+			if (r.isExit())
 				exits.add(graph.searchVertex(r));
 		}
 
@@ -185,25 +187,33 @@ public class Mansion {
 	}
 
 	public void deleteRoom(String room) throws NotFoundException {
-		if(room.equals("Main exit"))
+		if (room.equals("Main exit"))
 			throw new NotFoundException("You cannot delete the main exit!");
 		Room roomdelete = searchRoom(room);
 		if (roomdelete == null)
 			throw new NotFoundException("The room does not exist");
 		mapRooms.remove(room);
 		graph.removeVertex(roomdelete);
+		for (Treasure t : roomdelete.getTreasures()) {
+			t.setLocation("Museum");
+			museum.add(t);
+		}
 	}
 
-	public ArrayList<String> getTreasures() {
-		List<Room> rooms= graph.getContents();
-		ArrayList<String> treasures= new ArrayList();
-		ArrayList<Treasure> valuables=new ArrayList();
-		for(int i=0;i<rooms.size();i++) {
-			valuables=rooms.get(i).getTreasures();
-			for(int j=0;j<valuables.size();i++) {
-				treasures.add(valuables.get(i).toString());
+	public List<String> getTreasures() {
+		List<Room> rooms = graph.getContents();
+		List<String> treasures = new ArrayList<>();
+		List<Treasure> valuables = new ArrayList<>();
+		for (int i = 0; i < rooms.size(); i++) {
+			valuables = rooms.get(i).getTreasures();
+			for (int j = 0; j < valuables.size(); j++) {
+				treasures.add(valuables.get(j).toString());
 			}
 		}
+		for (Treasure t : museum) {
+			treasures.add(t.toString());
+		}
+		Collections.sort(treasures);
 		return treasures;
 	}
 
@@ -235,7 +245,7 @@ public class Mansion {
 		return nondir;
 	}
 
-	public void initMansion(){
+	public void initMansion() {
 		try {
 			addRoom("Main exit", true);
 		} catch (RoomAlreadyExistsException e) {
@@ -262,21 +272,21 @@ public class Mansion {
 
 		return path;
 	}
-	
-	public List<Room> getRooms(){
+
+	public List<Room> getRooms() {
 		Iterator<Room> roomsI = mapRooms.values().iterator();
 		ArrayList<Room> rooms = new ArrayList<>();
-		while(roomsI.hasNext()) {
+		while (roomsI.hasNext()) {
 			rooms.add(roomsI.next());
 		}
 		Collections.sort(rooms);
 		return rooms;
 	}
-	
-	public List<Room> getNeighbors(Room r){
+
+	public List<Room> getNeighbors(Room r) {
 		ArrayList<Room> neigh = new ArrayList<>();
 		Vertex<Room> v = graph.searchVertex(r);
-		if(v != null) {
+		if (v != null) {
 			List<Vertex<Room>> n = graph.getNeighbors(v);
 			for (Vertex<Room> u : n) {
 				neigh.add(u.getValue());
@@ -284,7 +294,7 @@ public class Mansion {
 		}
 		return neigh;
 	}
-	
+
 //	public List<Room> getFromNeighbors(Room r){
 //		ArrayList<Room> neigh = new ArrayList<>();
 //		Vertex<Room> v = graph.searchVertex(r);
@@ -297,5 +307,13 @@ public class Mansion {
 //		}
 //		return neigh;
 //	}
+	
+	public void addTreasure(String room, String name, double value) throws NotFoundException {
+		Room r = searchRoom(room);
+		if(r == null) {
+			throw new NotFoundException("The room does not exist");
+		}
+		r.addValuable(name, value);
+	}
 
 }
