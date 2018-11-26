@@ -109,7 +109,7 @@ public class Mansion {
 			throws NotFoundException, CorridorAlreadyExistsException {
 		Room fromRoom = searchRoom(from);
 		Room toRoom = searchRoom(to);
-
+		
 		if (fromRoom == null || toRoom == null)
 			throw new NotFoundException("The room does not exist");
 		if (graph.areAdjacent(search(from), search(to))) {
