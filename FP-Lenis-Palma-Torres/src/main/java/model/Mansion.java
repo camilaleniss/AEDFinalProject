@@ -31,7 +31,6 @@ public class Mansion {
 		museum = new ArrayList<>();
 //		exits = new ArrayList<>();
 		this.isList = isList;
-		initMansion();
 	}
 //
 //	/**
