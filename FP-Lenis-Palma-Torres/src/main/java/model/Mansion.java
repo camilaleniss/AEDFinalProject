@@ -16,7 +16,6 @@ public class Mansion {
 		mapRooms = new HashMap<>();
 		museum = new ArrayList<>();
 		this.isList = isList;
-		initMansion();
 	}
 
 	/**

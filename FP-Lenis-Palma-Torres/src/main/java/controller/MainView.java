@@ -61,6 +61,7 @@ public class MainView {
     	} else {
     		mansion = new Mansion(true);
     	}
+    	mansion.initMansion();
     	updateList();
     }
     
