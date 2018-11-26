@@ -48,7 +48,7 @@ class TestMansion {
 		mansion.addRoom("4", false);
 		mansion.createCorridor("Main exit", "4", 2);
 		mansion.createCorridor("1", "Main exit", 9);
-		mansion.createCorridor("1","2", 2);
+		mansion.createCorridor("1","2", 5);
 		mansion.createCorridor("2","Main exit", 1);
 		mansion.createCorridor("4","2", 3);
 	}
@@ -436,7 +436,7 @@ class TestMansion {
 			assertTrue(msg.equals("-2-Main exit (exit)"));
 			assertTrue(mansion.getPathLength(path)==1);
 			
-			/*
+			
 			//Test 3
 			setUpStage4(true);
 			path = mansion.shortestWayOut("1");
@@ -450,8 +450,7 @@ class TestMansion {
 			path = mansion.shortestWayOut("1");
 			msg=getMessage(path);
 			assertTrue(msg.equals("-1-2-Main exit (exit)"));
-			assertTrue(mansion.getPathLength(path)==6);
-			*/
+			assertTrue(mansion.getPathLength(path)==6);			
 			
 			//Test 5
 			setUpStage5(true);
