@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ControllerModify">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ControllerModify">
    <center>
       <GridPane BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -28,18 +28,18 @@
          <children>
             <Label prefHeight="17.0" prefWidth="43.0" text="Name" />
             <JFXTextField fx:id="txtName" prefHeight="25.0" prefWidth="182.0" GridPane.columnIndex="1" />
-            <Label text=" Habitación" GridPane.rowIndex="2" />
+            <Label text="Room" GridPane.rowIndex="2" />
             <JFXComboBox fx:id="comboRoom" prefHeight="25.0" prefWidth="217.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <JFXButton fx:id="btnAddCorridor" onAction="#addCorridor" text="Añadir pasillo hasta" GridPane.rowIndex="3" />
-            <JFXButton fx:id="btnDeleteCorridor" onAction="#deleteCorridor" text="Eliminar pasillo hasta" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <JFXCheckBox fx:id="chkExit" text="Es una salida" GridPane.rowIndex="1" />
-            <JFXButton fx:id="btnUpdate" onAction="#update" text="Actualizar" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <JFXButton fx:id="btnAddCorridor" onAction="#addCorridor" text="Construct hallway to" GridPane.rowIndex="3" />
+            <JFXButton fx:id="btnDeleteCorridor" onAction="#deleteCorridor" text="Demolish Hallway to" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <JFXCheckBox fx:id="chkExit" text="Is it an Exit" GridPane.rowIndex="1" />
+            <JFXButton fx:id="btnUpdate" onAction="#update" text="Update" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <JFXButton fx:id="btnReturn" onAction="#returnToMansion" text="Return" GridPane.columnIndex="2" GridPane.rowIndex="3" />
          </children>
       </GridPane>
    </center>
    <top>
-      <Label text="MODIFY ROOM" BorderPane.alignment="CENTER">
+      <Label text="Room Modification" BorderPane.alignment="CENTER">
          <font>
             <Font size="24.0" />
          </font></Label>
