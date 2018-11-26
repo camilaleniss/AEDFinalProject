@@ -16,8 +16,7 @@ public class Main extends Application{
 		Parent root = loader.load();
 		Scene scene = new Scene(root);
 		primaryStage.setScene(scene);
-		primaryStage.setTitle("Main");
-//		primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/baloncesto.png")));
+		primaryStage.setTitle("Winchester Mansion");
 		MainView contr = loader.getController();
 		primaryStage.show();
 		contr.init();
