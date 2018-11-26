@@ -488,13 +488,15 @@ class TestMansion {
 		}
 	}
 	
-	public String getMessage(List<Room> path) {
+	private String getMessage(List<Room> path) {
 		String msg="";
 		for (int i = 0; i < path.size(); i++) {
 			msg += "-"+path.get(i);
 		}
 		return msg;
 	}
+	
+	
 	
 
 }
