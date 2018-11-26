@@ -299,7 +299,7 @@ public class Mansion {
 			createCorridor(names[1], names[7], 1);
 			createCorridor(names[6], names[7], 3);
 			createCorridor(names[3], names[2], 14);
-			createCorridor(names[1], names[7], 12);
+			createCorridor(names[5], names[1], 12);
 			createCorridor(names[2], names[1], 14);
 			createCorridor(names[8], names[9], 1);
 			createCorridor(names[7], names[8], 2);
@@ -307,19 +307,19 @@ public class Mansion {
 			createCorridor(names[5], names[7], 13);
 			createCorridor(names[7], names[2], 1);
 			createCorridor(names[0], names[3], 14);
-			createCorridor(names[7], names[4], 10);
+			createCorridor(names[9], names[4], 10);
 			createCorridor(names[1], names[6], 7);
-			createCorridor(names[0], names[3], 15);
+			createCorridor(names[4], names[3], 15);
 			createCorridor(names[6], names[2], 12);
 			createCorridor(names[1], names[2], 11);
-			createCorridor(names[3], names[2], 10);
+			createCorridor(names[7], names[0], 10);
 			createCorridor(names[0], names[8], 11);
 			
 			addTreasure(names[9], "Aristi's glasses", 100);
 			addTreasure(names[3], "Barrios' dinosaur costume", 100);
 			addTreasure(names[1], "Pitcher full of the green sauce from Central", 50);
 			addTreasure(names[6], "Mysterious coin", 50);
-			addTreasure(names[2], "Old toothpaste", 10);
+			addTreasure(names[4], "Old toothpaste", 10);
 			
 		} catch (RoomAlreadyExistsException e) {
 			// TODO Auto-generated catch block
