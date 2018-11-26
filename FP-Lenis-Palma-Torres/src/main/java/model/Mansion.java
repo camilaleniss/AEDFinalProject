@@ -17,6 +17,14 @@ public class Mansion {
 		museum = new ArrayList<>();
 		this.isList = isList;
 	}
+	
+	public HashMap<String, Room> getMapRooms(){
+		return mapRooms;
+	}
+	
+	public IGraph<Room> getGraph(){
+		return graph;
+	}
 
 	/**
 	 * This method find the minimum path to an exit from the mansion The mansion can
