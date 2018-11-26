@@ -1,10 +1,7 @@
 package test;
 
 import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import model.Mansion;
 import model.NotFoundException;
@@ -129,23 +126,23 @@ class TestMansion {
 		mansion.createCorridor("4", "6", 15);
 	}
 	
-	public void setUpStage9(boolean type) throws NotFoundException {
-		setUpStage1(type);
+	public void setUpStage9(boolean type) throws NotFoundException, RoomAlreadyExistsException {
+		setUpStage2(type);
 		mansion.addTreasure("Kitchen", "Treas1", 30000);
 	}
 	
-	public void setUpStage10(boolean type) throws NotFoundException {
+	public void setUpStage10(boolean type) throws NotFoundException, RoomAlreadyExistsException {
 		setUpStage9(type);
 		mansion.addTreasure("Room", "Ring", 20000);
 		mansion.addTreasure("Kitchen", "Knife", 40000);
 	}
 	
-	public void setUpStage11(boolean type) throws NotFoundException {
+	public void setUpStage11(boolean type) throws NotFoundException, RoomAlreadyExistsException {
 		setUpStage10(type);
 		mansion.deleteRoom("Room");
 	}
 	
-	public void setUpStage12(boolean type) throws NotFoundException {
+	public void setUpStage12(boolean type) throws NotFoundException, RoomAlreadyExistsException {
 		setUpStage9(type);
 		mansion.addTreasure("Kitchen", "Knife", 40000);
 		mansion.deleteRoom("Room");
@@ -554,6 +551,127 @@ class TestMansion {
 		}
 	}
 	
+	@Test
+	void testAnnounceClosure() {
+		double time;
+
+		try {
+			//Test 1
+			setUpStage7(true);
+			time= mansion.announceClosure();
+			assertTrue(time==14);
+			
+			//Test 2
+			setUpStage7(false);
+			time=mansion.announceClosure();
+			assertTrue(time==14);
+			
+			//Test 3
+			setUpStage8(true);
+			time=mansion.announceClosure();
+			assertTrue(time==43);
+			
+			//Test 4
+			setUpStage8(false);
+			time=mansion.announceClosure();
+			assertTrue(time==43);
+		} catch (RoomAlreadyExistsException | NotFoundException | CorridorAlreadyExistsException e) {
+			fail("It must not throw any exceptions");
+		}
+		
+	}
 	
+	@Test 
+	void testAddTreasure() {
+		try {
+			//Test 1
+			setUpStage2(true);
+			mansion.addTreasure("Kitchen", "Treas1", 30000);
+			assertTrue(mansion.searchRoom("Kitchen").getTreasures().get(0).getName().equals("Treas1"));
+			assertTrue(mansion.searchRoom("Kitchen").getTreasures().get(0).getValue()==30000);
+			
+			//Test 2
+			setUpStage2(false);
+			mansion.addTreasure("Kitchen", "Treas1", 30000);
+			assertTrue(mansion.searchRoom("Kitchen").getTreasures().get(0).getName().equals("Treas1"));
+			assertTrue(mansion.searchRoom("Kitchen").getTreasures().get(0).getValue()==30000);
+			
+			//Test 3
+			setUpStage9(true);
+			mansion.addTreasure("Kitchen", "Knife", 30000);
+			assertTrue(mansion.searchRoom("Kitchen").getTreasures().get(0).getName().equals("Treas1"));
+			assertTrue(mansion.searchRoom("Kitchen").getTreasures().get(0).getValue()==30000);
+			assertTrue(mansion.searchRoom("Kitchen").getTreasures().get(1).getName().equals("Knife"));
+			assertTrue(mansion.searchRoom("Kitchen").getTreasures().get(1).getValue()==30000);
+			
+			//Test 4
+			setUpStage9(false);
+			mansion.addTreasure("Kitchen", "Knife", 30000);
+			assertTrue(mansion.searchRoom("Kitchen").getTreasures().get(0).getName().equals("Treas1"));
+			assertTrue(mansion.searchRoom("Kitchen").getTreasures().get(0).getValue()==30000);
+			assertTrue(mansion.searchRoom("Kitchen").getTreasures().get(1).getName().equals("Knife"));
+			assertTrue(mansion.searchRoom("Kitchen").getTreasures().get(1).getValue()==30000);
+		} catch (RoomAlreadyExistsException | NotFoundException e) {
+			fail("It must not fail");
+		}
+		
+		//Test 5
+		try {
+			setUpStage2(true);
+			mansion.addTreasure("Bathroom", "Ring", 40000);
+		} catch (RoomAlreadyExistsException e) {
+			fail("It must not throw this exception");
+		} catch (NotFoundException e) {
+			assert(true);
+		}
+		
+		//Test 6
+		try {
+			setUpStage2(false);
+			mansion.addTreasure("Bathroom", "Ring", 40000);
+		} catch (RoomAlreadyExistsException e) {
+			fail("It must not throw this exception");
+		} catch (NotFoundException e) {
+			assert(true);
+		}
+	}
+	
+	@Test 
+	void testGetTreasures() {
+		try {
+			//Test 1
+			setUpStage10(true);
+			assertTrue(mansion.getTreasures().size()==3);
+			assertTrue(mansion.getMuseum().size()==0);
+			
+			//Test 2
+			setUpStage10(false);
+			assertTrue(mansion.getTreasures().size()==3);
+			assertTrue(mansion.getMuseum().size()==0);
+			
+			//Test 3
+			setUpStage11(true);
+			assertTrue(mansion.getTreasures().size()==3);
+			assertTrue(mansion.getMuseum().size()==1);
+			
+			//Test 4
+			setUpStage11(false);
+			assertTrue(mansion.getTreasures().size()==3);
+			assertTrue(mansion.getMuseum().size()==1);
+			
+			//Test 5
+			setUpStage12(true);
+			assertTrue(mansion.getTreasures().size()==2);
+			assertTrue(mansion.getMuseum().size()==0);
+			
+			//Test 6
+			setUpStage12(false);
+			assertTrue(mansion.getTreasures().size()==2);
+			assertTrue(mansion.getMuseum().size()==0);
+		} catch (NotFoundException | RoomAlreadyExistsException e) {
+			fail("It must not fail");
+		}
+		
+	}	
 
 }

@@ -5,7 +5,6 @@ import java.util.*;
 public class Mansion {
 
 	private IGraph<Room> graph;
-
 	private HashMap<String, Room> mapRooms;
 	private List<Treasure> museum;
 
@@ -208,6 +207,10 @@ public class Mansion {
 		}
 
 		return path;
+	}
+	
+	public List<Treasure> getMuseum(){
+		return museum;
 	}
 
 	public List<Room> getRooms() {
