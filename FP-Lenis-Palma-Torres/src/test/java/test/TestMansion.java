@@ -511,15 +511,14 @@ class TestMansion {
 			path=mansion.shortestPath("u", "w");
 			msg=getMessage(path);
 			assertTrue(msg.equals("-u-t-w"));
-			System.out.println(mansion.getPathLength(path));
-			assertTrue(mansion.getPathLength(path)==3);
+			assertTrue(mansion.getPathLength(path)==2);
 			
 			//Test 2
 			setUpStage6(false);
 			path=mansion.shortestPath("u", "w");
 			msg=getMessage(path);
 			assertTrue(msg.equals("-u-t-w"));
-			assertTrue(mansion.getPathLength(path)==3);
+			assertTrue(mansion.getPathLength(path)==2);
 			
 			//Test 3
 			setUpStage13(true);
@@ -554,5 +553,7 @@ class TestMansion {
 			assert(true);
 		}
 	}
+	
+	
 
 }
