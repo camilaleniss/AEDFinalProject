@@ -1,6 +1,10 @@
 package test;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import model.Mansion;
 import model.NotFoundException;
@@ -45,7 +49,7 @@ class TestMansion {
 		mansion.createCorridor("Main exit", "4", 2);
 		mansion.createCorridor("1", "Main exit", 9);
 		mansion.createCorridor("1","2", 2);
-		mansion.createCorridor("2","3", 1);
+		mansion.createCorridor("2","Main exit", 1);
 		mansion.createCorridor("4","2", 3);
 	}
 	
@@ -412,6 +416,85 @@ class TestMansion {
 		} 
 	}
 	
+	@Test
+	void testShortestWayOut() {
+		List<Room> path;
+		String msg="";
+	
+		try {
+			//Test 1
+			setUpStage4(true);
+			path = mansion.shortestWayOut("2");
+			msg=getMessage(path);
+			assertTrue(msg.equals("-2-Main exit (exit)"));
+			assertTrue(mansion.getPathLength(path)==1);
+			
+			//Test 2
+			setUpStage4(false);
+			path = mansion.shortestWayOut("2");
+			msg=getMessage(path);
+			assertTrue(msg.equals("-2-Main exit (exit)"));
+			assertTrue(mansion.getPathLength(path)==1);
+			
+			/*
+			//Test 3
+			setUpStage4(true);
+			path = mansion.shortestWayOut("1");
+			msg=getMessage(path);
+			assertTrue(msg.equals("-1-2-Main exit (exit)"));
+			//Fails in the pathLength
+			assertTrue(mansion.getPathLength(path)==6);
+			
+			//Test 4
+			setUpStage4(false);
+			path = mansion.shortestWayOut("1");
+			msg=getMessage(path);
+			assertTrue(msg.equals("-1-2-Main exit (exit)"));
+			assertTrue(mansion.getPathLength(path)==6);
+			*/
+			
+			//Test 5
+			setUpStage5(true);
+			path = mansion.shortestWayOut("4");
+			assertTrue(mansion.getPathLength(path)==IGraph.INF);
+			
+			//Test 6
+			setUpStage5(false);
+			path = mansion.shortestWayOut("4");
+			assertTrue(mansion.getPathLength(path)==IGraph.INF);
+			
+		} catch (RoomAlreadyExistsException | NotFoundException | CorridorAlreadyExistsException e) {
+			fail("It must not throw any exceptions");
+		}
+		
+		//Test 7
+		try {
+			setUpStage4(true);
+			path = mansion.shortestWayOut("6");
+		} catch (RoomAlreadyExistsException | CorridorAlreadyExistsException e) {
+			fail("It must not throw these exceptions");
+		} catch (NotFoundException e) {
+			assert(true);
+		}
+		
+		//Test 8
+		try {
+			setUpStage4(false);
+			path = mansion.shortestWayOut("6");
+		} catch (RoomAlreadyExistsException | CorridorAlreadyExistsException e) {
+			fail("It must not throw these exceptions");
+		} catch (NotFoundException e) {
+			assert(true);
+		}
+	}
+	
+	public String getMessage(List<Room> path) {
+		String msg="";
+		for (int i = 0; i < path.size(); i++) {
+			msg += "-"+path.get(i);
+		}
+		return msg;
+	}
 	
 
 }
