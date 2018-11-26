@@ -66,12 +66,8 @@ public class Mansion {
 
 	public double getPathLength(List<Room> path) throws NotFoundException {
 		double total = 0;
-		for (Room r : path) {
-			Vertex<Room> v = graph.searchVertex(r);
-			if (v == null)
-				throw new NotFoundException("The room does not exist");
-			total += v.getD();
-		}
+		if(!path.isEmpty())
+			total = graph.searchVertex(path.get(path.size()-1)).getD();
 		return total;
 	}
 

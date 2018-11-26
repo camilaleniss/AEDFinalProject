@@ -448,7 +448,6 @@ class TestMansion {
 			path = mansion.shortestWayOut("1");
 			msg=getMessage(path);
 			assertTrue(msg.equals("-1-2-Main exit (exit)"));
-			//Fails in the pathLength
 			assertTrue(mansion.getPathLength(path)==6);
 			
 			//Test 4
@@ -457,7 +456,6 @@ class TestMansion {
 			msg=getMessage(path);
 			assertTrue(msg.equals("-1-2-Main exit (exit)"));
 			assertTrue(mansion.getPathLength(path)==6);
-			
 			
 			//Test 5
 			setUpStage5(true);
@@ -513,6 +511,7 @@ class TestMansion {
 			path=mansion.shortestPath("u", "w");
 			msg=getMessage(path);
 			assertTrue(msg.equals("-u-t-w"));
+			System.out.println(mansion.getPathLength(path));
 			assertTrue(mansion.getPathLength(path)==3);
 			
 			//Test 2
